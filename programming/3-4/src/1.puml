@@ -1,0 +1,137 @@
+@startuml
+class Personage{
+name: String
+money: int
+address: String
+location: String
+diseases: List<Diseases>
+articles: List<Article>
+#Personage(name: String, address: String, money: int)
++String getName()
++int getMoney()
++List<Diseases> getDiseases()
++void setMoney(money: int)
++void recover()
++void fallIll(disease: Diseases)
++void go(address: String)
++void read(newspaper: Newspaper)
++void write(name: String, institution: Institution)
++void write(name: String, product: String, shop: Shop)
++void release(newspaper: Newspaper)
+}
+
+abstract class Institution{
+name: String
+address: String
+owner: Personage
+payment: int
++String getAddress()
++String getName()
++void service(buyer: Personage)
+}
+
+interface CanDoService{
++void service(buyer: Personage)
+}
+
+class Hospital{
+turn: List<Personage>
+#Hospital(name: String, address: String, owner: Personage, payment: int)
++void increasePayment(n: int)
++void heal(ill: Personage)
++void healAll()
+}
+
+class Product << (R,#FF7700) >>{
+name: String
+spoiled: boolean
+#Product(name: String)
++boolean getSpoiled()
++String getName()
++void chanceToRot()
+}
+
+enum Diseases{
+POISONING
+INFECTION
+VIRAL DISEASE
+}
+
+class Factory{
+produced: String
+warehouse: List<Product>
+countSales: int
+#Factory(name: String, address: String, owner: Personage, payment: int, produced: String)
++String getProduced()
++Product toCreate()
++void replenishWarehouse(count: int)
++Product toSend(shop: Shop)
++void increaseСountSales(n: int)
+}
+
+class Shop{
+warehouse: List<Product>
+provider: Factory
+sales: int
+#Shop(name: String, address: String, owner: Personage, payment: int, provider: Factory)
++Personage getOwner()
++void orderProduct(count: int)
++void service(buyer: Personage, count: int)
++void orderProduct(int)
+}
+
+abstract class Article{
+name: String
+countReaders: int
++void advertise(personage: Personage)
++String getName()
+}
+
+interface CanDoAdvertise{
++void advertise(personage: Personage)
+}
+
+class AdvertisementInstitution{
+institution: Institution
+#AdvertisementInstitution(name: String, institution: Institution)
+}
+
+class AdvertisementProduct{
+product: String
+shop: Shop
+#AdvertisementProduct(name: String, product: String, shop: Shop)
+}
+
+class Newspaper{
+name: String
+articles: List<Article>
+#Newspaper(name: String)
++List<Article> getArticles()
++String getName()
++void addArticle(article: Article)
+}
+
+class  NegativeBalance  << (X,#d83614) >>{
+#NegativeBalance(obj: Personage)
+}
+
+class RuntimeException << (X,#d83614) >>
+
+Institution <|-- Hospital
+Institution <|-- Factory
+Institution <|-- Shop
+
+Article <|-- AdvertisementInstitution
+Article <|-- AdvertisementProduct
+
+RuntimeException <|-- NegativeBalance
+
+CanDoService <|.. Institution : implements
+
+CanDoAdvertise <|.. AdvertisementInstitution : implements
+CanDoAdvertise <|.. AdvertisementProduct : implements
+
+Factory +-- Product
+Newspaper +-- AdvertisementInstitution
+Newspaper +-- AdvertisementProduct
+@enduml
