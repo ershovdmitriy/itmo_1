@@ -1,28 +1,22 @@
 package lab6.server.network;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.util.Map;
+import java.net.*;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import lab6.common.service.CommandRequest;
+
+import lab6.client.commands.CommandExecutor;
 import lab6.common.service.CommandResponse;
 import lab6.common.service.Serializer;
 import lab6.server.collection.CollectionManager;
-import lab6.server.commands.CommandMap;
-import lab6.server.commands.ServerCommand;
 import lab6.server.logging.ServerLogger;
 
-public class UdpServer<C extends Map<String, ServerCommand>> {
+public class UdpServer {
   private final int port;
   private final String host;
   private final int bufferSize;
-  private final C commandMap;
   private volatile boolean running = true;
-
+  private final CommandExecutor<?> commandExecutor;
   private final ConcurrentLinkedQueue<String> commandQueue = new ConcurrentLinkedQueue<>();
   private final CollectionManager<?, ?> collectionManager;
 
@@ -30,40 +24,38 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
       int port,
       String host,
       int bufferSize,
-      CommandMap<C> commandMap,
-      CollectionManager<?, ?> collectionManager) {
+      CollectionManager<?, ?> collectionManager,
+      CommandExecutor<?> commandExecutor) {
     this.port = port;
     this.host = host;
     this.bufferSize = bufferSize;
-    this.commandMap = commandMap.getCommandMap();
-
     this.collectionManager = collectionManager;
+    this.commandExecutor = commandExecutor;
     startConsoleReader();
   }
 
   public void start() {
-    try (DatagramChannel channel = DatagramChannel.open()) {
-      channel.bind(new InetSocketAddress(host, port));
-      channel.configureBlocking(false);
+    try (DatagramSocket serverSocket = new DatagramSocket(port, InetAddress.getByName(host))) {
       ServerLogger.log("Сервер запущен на порту " + port);
       ServerLogger.log("Ожидание запросов...");
-      ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
+      serverSocket.setSoTimeout(1000);
+      byte[] buffer = new byte[bufferSize];
 
       while (running) {
+        processConsoleCommands();
         try {
-          buffer.clear();
-          SocketAddress clientAddress = channel.receive(buffer);
-          if (clientAddress != null) {
-            buffer.flip();
-            byte[] data = new byte[buffer.remaining()];
-            buffer.get(data);
-            buffer.clear();
-            processRequest(channel, clientAddress, data);
-          }
-
-          processConsoleCommands();
+          DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+          serverSocket.receive(receivePacket);
+          CommandResponse<?> response = commandExecutor.processRequest(receivePacket.getData());
+          byte[] responseData = Serializer.serialize(response);
+          InetAddress clientAddress = receivePacket.getAddress();
+          int clientPort = receivePacket.getPort();
+          DatagramPacket sendPacket = new DatagramPacket(responseData, responseData.length, clientAddress, clientPort);
+          serverSocket.send(sendPacket);
+          ServerLogger.log("Ответ отправлен клиенту " + clientAddress);
 
           Thread.sleep(10);
+        } catch (SocketTimeoutException e){
         } catch (InterruptedException e) {
           ServerLogger.log("Сервер остановлен");
           break;
@@ -74,27 +66,6 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
     } catch (IOException e) {
       ServerLogger.error("Ошибка запуска сервера: " + e.getMessage());
     }
-  }
-
-  private void processRequest(DatagramChannel channel, SocketAddress clientAddress, byte[] data) {
-    CommandResponse<?> response;
-    try {
-      CommandRequest<?, ?> request = Serializer.deserialize(data, CommandRequest.class);
-      ServerLogger.log("Получена команда: " + request.getCommandName());
-      ServerCommand command = commandMap.get(request.getCommandName());
-      response = command.execute(request);
-    } catch (Exception e) {
-      response = new CommandResponse<>(null, "Ошибка: " + e.getMessage());
-    }
-    try {
-      byte[] responseData = Serializer.serialize(response);
-      ByteBuffer buffer = ByteBuffer.wrap(responseData);
-      channel.send(buffer, clientAddress);
-      ServerLogger.log("Ответ отправлен клиенту " + clientAddress);
-    } catch (IOException e) {
-      ServerLogger.error("Ошибка при отправке ответа: " + e.getMessage());
-    }
-    ServerLogger.log("Запрос от " + clientAddress + " обработан");
   }
 
   private void startConsoleReader() {

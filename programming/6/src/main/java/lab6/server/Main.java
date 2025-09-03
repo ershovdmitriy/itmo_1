@@ -2,6 +2,8 @@ package lab6.server;
 
 import java.util.LinkedHashMap;
 import java.util.Scanner;
+
+import lab6.client.commands.CommandExecutor;
 import lab6.common.collection.HumanBeing.HumanBeing;
 import lab6.server.collection.HumanBeingManagers;
 import lab6.server.collection.IdManager;
@@ -25,8 +27,9 @@ public class Main {
       humanBeingManagers.setIdManager(idManager);
       CommandMapForHumanBeing commandMapForHumanBeing =
           new CommandMapForHumanBeing(humanBeingManagers, idManager);
-      UdpServer<LinkedHashMap<String, ServerCommand>> udpServer =
-          new UdpServer<>(PORT, HOST, BUFFER_SIZE, commandMapForHumanBeing, humanBeingManagers);
+      CommandExecutor<LinkedHashMap<String, ServerCommand>> commandExecutor = new CommandExecutor<>(commandMapForHumanBeing);
+      UdpServer udpServer =
+          new UdpServer(PORT, HOST, BUFFER_SIZE, humanBeingManagers, commandExecutor);
 
       udpServer.start();
     } catch (Exception e) {

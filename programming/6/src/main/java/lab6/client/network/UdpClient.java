@@ -21,21 +21,24 @@ public class UdpClient implements AutoCloseable {
     channel.connect(serverAddress);
   }
 
-  public CommandResponse sendRequest(CommandRequest<?, ?> request, int maxRetries)
+  public CommandResponse<?> sendRequest(CommandRequest<?, ?> request, int maxRetries)
       throws ServerUnavailableException {
     try {
       byte[] requestData = Serializer.serialize(request);
       ByteBuffer buffer = ByteBuffer.wrap(requestData);
+      System.out.println("1");
 
       int retries = 0;
       while (retries < maxRetries) {
         try {
+          System.out.println("2");
           channel.write(buffer);
-
+          System.out.println("3");
           ByteBuffer responseBuffer = ByteBuffer.allocate(65536);
           long startTime = System.currentTimeMillis();
 
           while (System.currentTimeMillis() - startTime < timeout) {
+            System.out.println("4");
             if (channel.read(responseBuffer) > 0) {
               responseBuffer.flip();
               return Serializer.deserialize(responseBuffer.array(), CommandResponse.class);
