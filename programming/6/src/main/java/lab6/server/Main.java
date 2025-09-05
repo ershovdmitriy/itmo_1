@@ -2,19 +2,17 @@ package lab6.server;
 
 import java.util.LinkedHashMap;
 import java.util.Scanner;
-
-import lab6.client.commands.CommandExecutor;
 import lab6.common.collection.HumanBeing.HumanBeing;
 import lab6.server.collection.HumanBeingManagers;
 import lab6.server.collection.IdManager;
 import lab6.server.collection.JsonManager;
+import lab6.server.commands.CommandExecutor;
 import lab6.server.commands.CommandMapForHumanBeing;
 import lab6.server.commands.ServerCommand;
 import lab6.server.logging.ServerLogger;
 import lab6.server.network.UdpServer;
 
 public class Main {
-  private static final String HOST = "localhost";
   private static final int BUFFER_SIZE = 65536;
 
   public static void main(String[] args) {
@@ -27,9 +25,9 @@ public class Main {
       humanBeingManagers.setIdManager(idManager);
       CommandMapForHumanBeing commandMapForHumanBeing =
           new CommandMapForHumanBeing(humanBeingManagers, idManager);
-      CommandExecutor<LinkedHashMap<String, ServerCommand>> commandExecutor = new CommandExecutor<>(commandMapForHumanBeing);
-      UdpServer udpServer =
-          new UdpServer(PORT, HOST, BUFFER_SIZE, humanBeingManagers, commandExecutor);
+      CommandExecutor<LinkedHashMap<String, ServerCommand>> commandExecutor =
+          new CommandExecutor<>(commandMapForHumanBeing);
+      UdpServer udpServer = new UdpServer(PORT, BUFFER_SIZE, humanBeingManagers, commandExecutor);
 
       udpServer.start();
     } catch (Exception e) {

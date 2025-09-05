@@ -2,15 +2,13 @@ package lab6.client.builders.humanBeingBuilder;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
-import lab6.client.builders.ObjectBuilder;
+import lab6.client.builders.ObjectBuilderNew;
 import lab6.common.collection.HumanBeing.Car;
 import lab6.common.validators.InputValidator;
 
-public class CarBuilder implements ObjectBuilder<Car> {
+public class CarBuilder extends ObjectBuilderNew<Car> {
 
-  private Scanner scanner;
-
+  @Override
   public Car build() throws IllegalArgumentException {
     try {
       System.out.println("Создание Car:");
@@ -41,10 +39,5 @@ public class CarBuilder implements ObjectBuilder<Car> {
       throw new IllegalArgumentException(
           "Во время конструирования объекта произошла ошибка: " + e.getMessage());
     }
-  }
-
-  @Override
-  public void setScanner(Scanner scanner) {
-    this.scanner = scanner;
   }
 }

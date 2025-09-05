@@ -1,6 +1,6 @@
 package lab6.client.commands.HumanBeingCommands;
 
-import lab6.client.builders.ObjectBuilder;
+import lab6.client.builders.ObjectBuilderNew;
 import lab6.client.commands.ClientCommand;
 import lab6.common.exception.CommandException;
 import lab6.common.service.CommandRequest;
@@ -8,9 +8,9 @@ import lab6.common.service.CommandResponse;
 
 public class ReplaceIfLowe<T> extends ClientCommand {
 
-  private final ObjectBuilder<T> builder;
+  private final ObjectBuilderNew<T> builder;
 
-  public ReplaceIfLowe(ObjectBuilder<T> builder) {
+  public ReplaceIfLowe(ObjectBuilderNew<T> builder) {
     this.builder = builder;
   }
 

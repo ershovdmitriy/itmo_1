@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import lab6.client.commands.CommandExecutor;
 import lab6.common.service.CommandResponse;
 import lab6.common.service.Serializer;
 import lab6.server.collection.CollectionManager;
+import lab6.server.commands.CommandExecutor;
 import lab6.server.logging.ServerLogger;
 
 public class UdpServer {
   private final int port;
-  private final String host;
   private final int bufferSize;
   private volatile boolean running = true;
   private final CommandExecutor<?> commandExecutor;
@@ -22,12 +20,10 @@ public class UdpServer {
 
   public UdpServer(
       int port,
-      String host,
       int bufferSize,
       CollectionManager<?, ?> collectionManager,
       CommandExecutor<?> commandExecutor) {
     this.port = port;
-    this.host = host;
     this.bufferSize = bufferSize;
     this.collectionManager = collectionManager;
     this.commandExecutor = commandExecutor;
@@ -35,7 +31,7 @@ public class UdpServer {
   }
 
   public void start() {
-    try (DatagramSocket serverSocket = new DatagramSocket(port, InetAddress.getByName(host))) {
+    try (DatagramSocket serverSocket = new DatagramSocket(port)) {
       ServerLogger.log("Сервер запущен на порту " + port);
       ServerLogger.log("Ожидание запросов...");
       serverSocket.setSoTimeout(1000);
@@ -50,12 +46,13 @@ public class UdpServer {
           byte[] responseData = Serializer.serialize(response);
           InetAddress clientAddress = receivePacket.getAddress();
           int clientPort = receivePacket.getPort();
-          DatagramPacket sendPacket = new DatagramPacket(responseData, responseData.length, clientAddress, clientPort);
+          DatagramPacket sendPacket =
+              new DatagramPacket(responseData, responseData.length, clientAddress, clientPort);
           serverSocket.send(sendPacket);
           ServerLogger.log("Ответ отправлен клиенту " + clientAddress);
 
           Thread.sleep(10);
-        } catch (SocketTimeoutException e){
+        } catch (SocketTimeoutException e) {
         } catch (InterruptedException e) {
           ServerLogger.log("Сервер остановлен");
           break;

@@ -5,14 +5,14 @@ import java.util.LinkedHashMap;
 import java.util.Scanner;
 import lab6.client.builders.humanBeingBuilder.HumanBeingBuilder;
 import lab6.client.commands.ClientCommand;
+import lab6.client.commands.CommandExecutor;
 import lab6.client.commands.CommandMap;
 import lab6.client.commands.CommandMapForHumanBeing;
-import lab6.client.commands.CommandReader;
 import lab6.client.network.UdpClient;
 import lab6.common.collection.HumanBeing.HumanBeing;
 
 public class Main {
-  private static final String SERVER_HOST = "localhost";
+  private static final String SERVER_HOST = "helios.cs.ifmo.ru";
   private static final int TIMEOUT_MS = 5000;
   private static final int MAX_RETRIES = 3;
 
@@ -27,12 +27,11 @@ public class Main {
     }
 
     HumanBeingBuilder builder = new HumanBeingBuilder();
-    CommandReader<LinkedHashMap<String, ClientCommand>, HumanBeing> commandReader =
-        new CommandReader<>(builder, udpManager, MAX_RETRIES);
     CommandMap<LinkedHashMap<String, ClientCommand>> commandMap =
         new CommandMapForHumanBeing(builder);
-    commandReader.setCommandMap(commandMap.getCommandMap());
+    CommandExecutor<LinkedHashMap<String, ClientCommand>, HumanBeing> commandExecutor =
+        new CommandExecutor<>(builder, udpManager, MAX_RETRIES, commandMap.getCommandMap());
     System.out.println("Для списка доступных команд, напишите help");
-    commandReader.startExecuting(new Scanner(System.in));
+    commandExecutor.startExecuting(new Scanner(System.in));
   }
 }

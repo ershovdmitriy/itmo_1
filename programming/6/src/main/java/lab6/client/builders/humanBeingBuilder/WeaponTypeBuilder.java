@@ -1,14 +1,11 @@
 package lab6.client.builders.humanBeingBuilder;
 
 import java.util.NoSuchElementException;
-import java.util.Scanner;
-import lab6.client.builders.ObjectBuilder;
+import lab6.client.builders.ObjectBuilderNew;
 import lab6.common.collection.HumanBeing.WeaponType;
 import lab6.common.validators.InputValidator;
 
-public class WeaponTypeBuilder implements ObjectBuilder<WeaponType> {
-
-  private Scanner scanner;
+public class WeaponTypeBuilder extends ObjectBuilderNew<WeaponType> {
 
   public WeaponType build() throws IllegalArgumentException {
     try {
@@ -35,10 +32,5 @@ public class WeaponTypeBuilder implements ObjectBuilder<WeaponType> {
       throw new IllegalArgumentException(
           "Во время конструирования объекта произошла ошибка: " + e.getMessage());
     }
-  }
-
-  @Override
-  public void setScanner(Scanner scanner) {
-    this.scanner = scanner;
   }
 }

@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class ExecuteScript<C extends Map<String, ClientCommand>, T> {
 
-  CommandReader<C, T> commandReader;
+  CommandExecutor<C, T> commandExecutor;
 
-  public ExecuteScript(CommandReader<C, T> commandReader) {
-    this.commandReader = commandReader;
+  public ExecuteScript(CommandExecutor<C, T> commandExecutor) {
+    this.commandExecutor = commandExecutor;
   }
 
   public boolean checkArgument(Object inputArgument) {
@@ -26,7 +26,7 @@ public class ExecuteScript<C extends Map<String, ClientCommand>, T> {
     if (checkArgument(argument)) {
       try {
         System.out.println("\nНачало выполнения скрипта \"" + argument + "\"\n");
-        commandReader.startExecuting(new Scanner(new FileInputStream(argument)));
+        commandExecutor.startExecuting(new Scanner(new FileInputStream(argument)));
         System.out.println("\nКонец выполнения скрипта \"" + argument + "\"\n");
       } catch (FileNotFoundException e) {
         System.out.println("Файл \"" + argument + "\" не обнаружен.");

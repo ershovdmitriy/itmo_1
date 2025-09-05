@@ -2,15 +2,13 @@ package lab6.client.builders.humanBeingBuilder;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
-import lab6.client.builders.ObjectBuilder;
+import lab6.client.builders.ObjectBuilderNew;
 import lab6.common.collection.HumanBeing.Coordinates;
 import lab6.common.validators.InputValidator;
 
-public class CoordinatesBuilder implements ObjectBuilder<Coordinates> {
+public class CoordinatesBuilder extends ObjectBuilderNew<Coordinates> {
 
-  private Scanner scanner;
-
+  @Override
   public Coordinates build() throws IllegalArgumentException {
     try {
       System.out.println("Создание Coordinates:");
@@ -56,10 +54,5 @@ public class CoordinatesBuilder implements ObjectBuilder<Coordinates> {
       throw new IllegalArgumentException(
           "Во время конструирования объекта произошла ошибка: " + e.getMessage());
     }
-  }
-
-  @Override
-  public void setScanner(Scanner scanner) {
-    this.scanner = scanner;
   }
 }
