@@ -27,7 +27,7 @@ public class CarBuilder extends ObjectBuilderNew<Car> {
             }
             cool = Boolean.parseBoolean(nextLine);
             car.setCool(cool);
-            return car;
+            break;
           } else {
             System.out.println("Строка на должна быть пустой. Попробуй еще.");
           }
@@ -35,6 +35,7 @@ public class CarBuilder extends ObjectBuilderNew<Car> {
           System.out.println("Неправильное значение ввода. Попробуй еще.");
         }
       }
+      return car;
     } catch (NoSuchElementException e) {
       throw new IllegalArgumentException(
           "Во время конструирования объекта произошла ошибка: " + e.getMessage());

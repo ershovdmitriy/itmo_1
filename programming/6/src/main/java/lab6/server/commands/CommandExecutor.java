@@ -21,6 +21,7 @@ public class CommandExecutor<C extends Map<String, ServerCommand>> {
       ServerCommand command = commandMap.get(request.getCommandName());
       response = command.execute(request);
     } catch (Exception e) {
+      System.out.println(e);
       response = new CommandResponse<>(null, "Ошибка: " + e.getMessage());
     }
     return response;

@@ -20,7 +20,7 @@ public class WeaponTypeBuilder extends ObjectBuilderNew<WeaponType> {
           }
           nextLine = scanner.nextLine().toUpperCase();
           if (inputValidator.validate(nextLine)) {
-            return WeaponType.valueOf(nextLine);
+            break;
           } else {
             System.out.println("Строка на должна быть пустой. Попробуй еще.");
           }
@@ -28,6 +28,7 @@ public class WeaponTypeBuilder extends ObjectBuilderNew<WeaponType> {
           System.out.println("Неправильное значение ввода. Попробуй еще.");
         }
       }
+      return WeaponType.valueOf(nextLine);
     } catch (NoSuchElementException e) {
       throw new IllegalArgumentException(
           "Во время конструирования объекта произошла ошибка: " + e.getMessage());

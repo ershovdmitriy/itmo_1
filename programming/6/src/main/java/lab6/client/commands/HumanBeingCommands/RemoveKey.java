@@ -9,7 +9,7 @@ public class RemoveKey extends ClientCommand {
 
   @Override
   public String getName() {
-    return "remove_key [key]";
+    return "remove_key";
   }
 
   @Override

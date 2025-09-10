@@ -12,7 +12,7 @@ import lab6.client.network.UdpClient;
 import lab6.common.collection.HumanBeing.HumanBeing;
 
 public class Main {
-  private static final String SERVER_HOST = "helios.cs.ifmo.ru";
+  private static final String SERVER_HOST = "localhost";
   private static final int TIMEOUT_MS = 5000;
   private static final int MAX_RETRIES = 3;
 

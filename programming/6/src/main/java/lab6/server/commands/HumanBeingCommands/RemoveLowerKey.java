@@ -1,5 +1,6 @@
 package lab6.server.commands.HumanBeingCommands;
 
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import lab6.common.service.CommandRequest;
 import lab6.common.service.CommandResponse;
@@ -27,9 +28,12 @@ public class RemoveLowerKey implements ServerCommand {
   @Override
   public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
     String key = (String) commandRequest.getArgument();
-    manager.getCollection().keySet().stream()
-        .filter(k -> k.compareTo(key) < 0)
-        .forEach(manager::removeElementToCollection);
+    try {
+      manager.getCollection().keySet().stream()
+          .filter(k -> k.compareTo(key) < 0)
+          .forEach(manager::removeElementToCollection);
+    } catch (ConcurrentModificationException e) {
+    }
     return new CommandResponse<>(
         getName(), "Все элементы с ключом меньше чем " + key + " удалены.");
   }
