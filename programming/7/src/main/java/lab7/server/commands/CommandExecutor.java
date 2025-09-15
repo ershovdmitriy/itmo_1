@@ -40,9 +40,6 @@ public class CommandExecutor implements Runnable{
     } catch (Exception e) {
       response = new CommandResponse<>(null, "Ошибка при исполнении команды");
       ServerLogger.error("Ошибка при исполнении команды");
-      System.out.println("CommandExecutor");
-      System.out.println(e);
-      System.out.println(e.getMessage());
     }
     responseSender.sendResponse(response, clientAddress);
   }

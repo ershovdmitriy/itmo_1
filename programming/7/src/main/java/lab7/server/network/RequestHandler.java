@@ -36,9 +36,7 @@ public class RequestHandler<C extends Map<String, ServerCommand>> implements Run
             executionThread.start();
 
         } catch (Exception e) {
-            System.out.println("RequestHandler");
-            System.out.println(e);
-            System.out.println(e.getMessage());
+            ServerLogger.error("Ошибка при чтении запроса: " + e);
         }
     }
 }

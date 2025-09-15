@@ -124,8 +124,5 @@ public class CommandExecutor<C extends Map<String, ClientCommand>, T> {
     } catch (NoSuchAlgorithmException e) {
       System.out.println("Ошибка при хешировании пароля");
     }
-
-    System.out.println(user + " : " + password);
-
   }
 }

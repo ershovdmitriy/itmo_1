@@ -56,14 +56,11 @@ public class UdpServer<C extends Map<String, ServerCommand>> {
           requestPool.execute(requestHandler);
         } catch (SocketTimeoutException e) {
         } catch (IOException e) {
-          System.out.println("");
-          System.out.println(e);
-          System.out.println(e.getMessage());
-          ServerLogger.error("Ошибка ввода-вывода: " + e.getMessage());
+          ServerLogger.error("Ошибка ввода-вывода: " + e);
         }
       }
     } catch (IOException e) {
-      ServerLogger.error("Ошибка запуска сервера: " + e.getMessage());
+      ServerLogger.error("Ошибка запуска сервера: " + e);
     } finally {
       requestPool.shutdown();
       if (responseSender != null) {
