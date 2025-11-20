@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №1</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <table>
+            <tr>
+                <th> Лабораторная работа №1 </th>
+            </tr>
+            <tr>
+                <td>Имя: Ершов Дмитрий Александрович</td>
+            </tr>
+            <tr>
+                <td>Группа: P3231</td>
+            </tr>
+            <tr>
+                <td>Вариант: 465871</td>
+            </tr>
+        </table>
+    </header>
+
+    <main>
+        <div id="notifications"></div>
+
+        <form id="main_form">
+            <table>
+                <tr>
+                    <td id="server_time" colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <img src="image.png" alt="Изображение">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="select_x">X:</label>
+                    </td>
+                    <td>
+                        <select id="select_x" name="x">
+                            <option value="-4">-4</option>
+                            <option value="-3">-3</option>
+                            <option value="-2">-2</option>
+                            <option value="-1">-1</option>
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="input_y">Y:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="input_y" name="y" placeholder="Введите число от -3 до 3">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="input_r">R:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="input_r" name="r" placeholder="Введите число от 1 до 4">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" id="submit-btn">Отправить</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+	<table id="result">
+	    <thead>
+	        <tr>
+	            <th>X</th>
+	            <th>Y</th>
+	            <th>R</th>
+	            <th>Результат</th>
+	            <th>Время выполнения</th>
+	            <th>Время сервера</th>
+	        </tr>
+	    </thead>
+	    <tbody></tbody>
+	</table>
+
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
