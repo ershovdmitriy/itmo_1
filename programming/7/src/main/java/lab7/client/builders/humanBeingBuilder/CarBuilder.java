@@ -1,0 +1,45 @@
+package lab7.client.builders.humanBeingBuilder;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.common.collection.HumanBeing.Car;
+import lab7.common.validators.InputValidator;
+
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+
+public class CarBuilder extends ObjectBuilder<Car> {
+
+  @Override
+  public Car build() throws IllegalArgumentException {
+    try {
+      System.out.println("Создание Car:");
+      Car car = new Car();
+      InputValidator inputValidator = new InputValidator();
+      String nextLine;
+
+      boolean cool;
+      while (true) {
+        try {
+          System.out.println("Введите значение cool(тип - boolean, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            if (!nextLine.equalsIgnoreCase("true") && !nextLine.equalsIgnoreCase("false")) {
+              throw new InputMismatchException();
+            }
+            cool = Boolean.parseBoolean(nextLine);
+            car.setCool(cool);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+      return car;
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(
+          "Во время конструирования объекта произошла ошибка: " + e.getMessage());
+    }
+  }
+}
