@@ -1,0 +1,125 @@
+package org.example.web3.beans;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import org.example.web3.dao.ResultRepository;
+import org.example.web3.entities.ResultEntity;
+import org.example.web3.services.HitChecker;
+import org.primefaces.PrimeFaces;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+@Named("resultsBean")
+@ApplicationScoped
+public class ResultsBean implements Serializable{
+
+    @EJB
+    private ResultRepository resultRepository;
+
+    private final List<ResultEntity> results;
+    private ResultEntity currentResult;
+    private final HitChecker hitChecker;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    public ResultsBean() {
+        results = new CopyOnWriteArrayList<>();
+        currentResult = new ResultEntity();
+        hitChecker = new HitChecker();
+    }
+
+    @PostConstruct
+    public void init() {
+        results.addAll(resultRepository.findAll());
+    }
+
+    public void addResult(Integer x, Double y, Double r, Boolean hit) {
+        ResultEntity result = new ResultEntity();
+        result.setX(x);
+        result.setY(y.toString());
+        result.setR(r);
+        result.setHit(hit);
+        result.setCurrentTime(LocalDateTime.now().format(formatter));
+        results.add(0, result);
+        resultRepository.save(result);
+        System.out.println("Элемент добавлен в коллекцию");
+    }
+
+    public void clearResult(){
+        System.out.println("clear");
+        resultRepository.clear();
+        this.results.clear();
+        results.addAll(resultRepository.findAll());
+        PrimeFaces.current().executeScript("drawGraph()");
+    }
+
+    public void submitResult() {
+        System.out.println("X = " + currentResult.getX());
+        System.out.println("Y = " + currentResult.getY());
+        System.out.println("R = " + currentResult.getR());
+
+        if (currentResult.getX() == null ||
+                currentResult.getY() == null ||
+                currentResult.getR() == null) {
+            PrimeFaces.current().executeScript("showNotification('Необходимо заполнить все поля', 'error')");
+            return;
+        }
+
+        if (currentResult.getCurrentTime() == null) {
+            currentResult.setCurrentTime(LocalDateTime.now().format(formatter));
+        }
+        try {
+            Double y = validY(currentResult.getY());
+            addResult(currentResult.getX(), y, currentResult.getR(), hitChecker.checkHit(currentResult.getX(), y, currentResult.getR()));
+        } catch (Exception e){
+            return;
+        }
+    }
+
+    public Double validY(String strY){
+        if (strY == null || strY.isEmpty()){
+            PrimeFaces.current().executeScript("showNotification('Необходимо заполнить все поля', 'error')");
+            throw new IllegalArgumentException();
+        }
+        try {
+            Double y = Double.parseDouble(strY);
+
+            if(y <= -3){
+                PrimeFaces.current().executeScript("showNotification('Y должен быть больше -3', 'error')");
+                throw new IllegalArgumentException();
+            }
+            if(y >= 5){
+                PrimeFaces.current().executeScript("showNotification('Y должен быть меньше 5', 'error')");
+                throw new IllegalArgumentException();
+            }
+            return y;
+
+        } catch (NumberFormatException e) {
+            PrimeFaces.current().executeScript("showNotification('Y должен быть числом', 'error')");
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public ResultEntity getCurrentResult() {
+        return currentResult;
+    }
+
+    public void setCurrentResult(ResultEntity currentResult) {
+        this.currentResult = currentResult;
+    }
+
+    public List<ResultEntity> getResults() {
+        return Collections.unmodifiableList(results);
+    }
+
+    public void setResults(List<ResultEntity> results) {
+        this.results.clear();
+        this.results.addAll(results);
+    }
+}
