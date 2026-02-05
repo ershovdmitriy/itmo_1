@@ -8,7 +8,6 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <!-- Убедитесь, что hibernate-community-dialects в зависимостях -->
         </properties>
     </persistence-unit>
 </persistence>
