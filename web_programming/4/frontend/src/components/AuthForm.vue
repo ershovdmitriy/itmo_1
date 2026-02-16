@@ -1,21 +1,20 @@
 <template>
   <div class="auth-form">
-    <h2>{{ isLogin ? 'Вход' : 'Регистрация' }}</h2>
+    <p>{{ isLogin ? 'Вход' : 'Регистрация' }}</p>
     <form @submit.prevent="handleSubmit">
       <div>
         <label>Логин:</label>
-        <input type="text" v-model="username" required />
+        <input type="text" v-model="username"/>
       </div>
       <div>
         <label>Пароль:</label>
-        <input type="password" v-model="password" required />
+        <input type="password" v-model="password"/>
       </div>
       <button type="submit" class="btn">{{ isLogin ? 'Войти' : 'Зарегистрироваться' }}</button>
       <button type="button" @click="toggleMode" class="btn">
         {{ isLogin ? 'Нет аккаунта? Зарегистрироваться' : 'Уже есть аккаунт? Войти' }}
       </button>
     </form>
-    <p v-if="error" style="color: red;">{{ error }}</p>
   </div>
 </template>
 
@@ -26,17 +25,15 @@ export default {
       username: '',
       password: '',
       isLogin: true,
-      error: ''
     };
   },
   methods: {
     toggleMode() {
       this.isLogin = !this.isLogin;
-      this.error = '';
     },
     handleSubmit() {
       if (!this.username || !this.password) {
-        this.error = 'Заполните все поля';
+        this.$emit('error', 'Заполните все поля');
         return;
       }
       const credentials = { username: this.username, password: this.password };

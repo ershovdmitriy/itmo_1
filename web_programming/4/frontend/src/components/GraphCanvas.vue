@@ -180,10 +180,10 @@ export default {
       mathX = Math.round(mathX * 100) / 100;
       mathY = Math.round(mathY * 100) / 100;
 
-      if (mathX < -5) mathX = -5;
-      if (mathX > 5) mathX = 5;
-      if (mathY < -5) mathY = -5;
-      if (mathY > 3) mathY = 3;
+      if (mathX <= -5 || mathX >= 5 || mathY <= -5 || mathY >= 3) {
+        emit('error', 'Координаты выходят за допустимые пределы (X ∈ (-5,5), Y ∈ (-5,3))');
+        return;
+      }
 
       emit('add-point', { x: mathX, y: mathY, r: props.r });
     };

@@ -6,26 +6,30 @@
           v-if="!isAuthenticated"
           @login="handleLogin"
           @register="handleRegister"
+          @error="(msg) => showNotification(msg, 'error')"
       />
       <div v-else class="main-content">
-        <div class="user-info">
-          <h3 class="username-label">Текущий пользователь: {{ username }}</h3>
-          <button @click="logout" class="btn">Выйти</button>
+        <div class="controls">
+          <div class="user-info">
+            <h3 class="username-label">Текущий пользователь: {{ username }}</h3>
+            <button @click="logout" class="btn">Выйти</button>
+          </div>
+          <GraphCanvas
+              :r="currentR"
+              :points="points"
+              @add-point="handleCanvasAddPoint"
+              @error="(msg) => showNotification(msg, 'error')"
+          />
+          <PointForm
+              :currentR="currentR"
+              @update:r="val => currentR = val"
+              @submit-point="addPoint"
+              @error="(msg) => showNotification(msg, 'error')"
+          />
+          <button @click="clearPoints" class="btn">
+            Очистить историю
+          </button>
         </div>
-        <GraphCanvas
-            :r="currentR"
-            :points="points"
-            @add-point="handleCanvasAddPoint"
-            @error="showNotification"
-        />
-        <PointForm
-            :currentR="currentR"
-            @update:r="val => currentR = val"
-            @submit-point="addPoint"
-        />
-        <button @click="clearPoints" class="btn.logout" style="margin-top: 10px;">
-          Очистить историю
-        </button>
         <ResultsTable :points="points" />
       </div>
     </main>
@@ -108,7 +112,7 @@ export default {
         await this.fetchPoints();
         this.showNotification('Вход выполнен', 'success');
       } catch (error) {
-        this.showNotification(error.response?.data || 'Ошибка входа', 'error');
+        this.showNotification(this.extractErrorMessage(error) || 'Ошибка входа', 'error');
       }
     },
 
@@ -117,7 +121,7 @@ export default {
         await axios.post('/api/auth/register', credentials);
         this.showNotification('Регистрация успешна, теперь войдите', 'success');
       } catch (error) {
-        this.showNotification(error.response?.data || 'Ошибка регистрации', 'error');
+        this.showNotification(this.extractErrorMessage(error) || 'Ошибка регистрации', 'error');
       }
     },
 
@@ -144,24 +148,31 @@ export default {
         this.points.push(response.data);
         this.showNotification('Точка добавлена', 'success');
       } catch (error) {
-        this.showNotification(error.response?.data?.message || 'Ошибка при добавлении точки', 'error');
+        this.showNotification(this.extractErrorMessage(error) || 'Ошибка при добавлении точки', 'error');
       }
     },
 
     async clearPoints() {
-      if (!confirm('Вы уверены, что хотите удалить все сохранённые точки?')) {
-        return;
-      }
       try {
         await axios.delete('/api/points');
         this.points = [];
         this.showNotification('История очищена', 'success');
       } catch (error) {
         this.showNotification(
-            error.response?.data?.message || 'Ошибка при очистке истории',
+            this.extractErrorMessage(error) || 'Ошибка при очистке истории',
             'error'
         );
       }
+    },
+
+    extractErrorMessage(error) {
+      if (!error.response) return error.message;
+      const data = error.response.data;
+      if (data && typeof data === 'object') {
+        if (data.message) return data.message;
+        return Object.values(data).join('; ');
+      }
+      return data;
     }
   }
 };

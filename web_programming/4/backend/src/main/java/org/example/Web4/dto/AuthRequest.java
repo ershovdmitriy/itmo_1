@@ -5,12 +5,12 @@ import jakarta.validation.constraints.Size;
 
 public class AuthRequest {
 
-    @NotBlank(message = "Username cannot be blank")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @NotBlank(message = "Введите имя")
+    @Size(min = 3, max = 50, message = "Имя должно содержать от 3 до 50 символов")
     private String username;
 
-    @NotBlank(message = "Password cannot be blank")
-    @Size(min = 6, message = "Password must be at least 6 characters")
+    @NotBlank(message = "Введите пароль")
+    @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
     private String password;
 
     public String getUsername() { return username; }
