@@ -1,0 +1,17 @@
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\service\AuthService.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\model\User.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\service\PointCheckService.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\controller\PointController.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\dto\PointRequest.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\dto\AuthRequest.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\config\SecurityConfig.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\model\PointResult.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\exception\GlobalExceptionHandler.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\controller\AuthController.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\service\UserService.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\Web4Application.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\dto\AuthResponse.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\repository\PointResultRepository.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\ServletInitializer.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\repository\UserRepository.java
+C:\Users\Dima\IdeaProjects\Web4\backend\src\main\java\org\example\Web4\dto\PointResponse.java

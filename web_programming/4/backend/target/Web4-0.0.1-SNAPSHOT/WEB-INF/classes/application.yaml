@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/studs
+    username: s465871
+    password: 2KQxvDa7wL81ruzo
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update # автоматически создаст/обновит таблицы
+    show-sql: true # выводит SQL в консоль (очень полезно для отладки)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true # форматированный SQL
+        jdbc:
+          batch_size: 20
+    open-in-view: false # рекомендуется false для Spring Boot приложений
+
+# Настройки сервера
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+
+# Логирование (можно настроить для отладки)
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # покажет значения параметров в SQL

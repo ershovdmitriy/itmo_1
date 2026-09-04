@@ -1,0 +1,17 @@
+org\example\Web4\exception\GlobalExceptionHandler.class
+org\example\Web4\repository\UserRepository.class
+org\example\Web4\model\User.class
+org\example\Web4\service\AuthService.class
+org\example\Web4\controller\PointController.class
+org\example\Web4\service\PointCheckService.class
+org\example\Web4\model\PointResult.class
+org\example\Web4\config\SecurityConfig.class
+org\example\Web4\repository\PointResultRepository.class
+org\example\Web4\Web4Application.class
+org\example\Web4\controller\AuthController.class
+org\example\Web4\dto\AuthRequest.class
+org\example\Web4\dto\PointRequest.class
+org\example\Web4\ServletInitializer.class
+org\example\Web4\dto\AuthResponse.class
+org\example\Web4\service\UserService.class
+org\example\Web4\dto\PointResponse.class
