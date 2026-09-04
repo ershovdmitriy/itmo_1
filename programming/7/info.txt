@@ -1,0 +1,3922 @@
+================================================================================
+Проект: 7
+================================================================================
+
+СТРУКТУРА ПРОЕКТА:
+================================================================================
+
+7/
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── lab7
+│   │   │       ├── client
+│   │   │       │   ├── builders
+│   │   │       │   │   ├── humanBeingBuilder
+│   │   │       │   │   │   ├── CarBuilder.java
+│   │   │       │   │   │   ├── CoordinatesBuilder.java
+│   │   │       │   │   │   ├── HumanBeingBuilder.java
+│   │   │       │   │   │   └── WeaponTypeBuilder.java
+│   │   │       │   │   └── ObjectBuilder.java
+│   │   │       │   ├── commands
+│   │   │       │   │   ├── HumanBeingCommands
+│   │   │       │   │   │   ├── Authorization.java
+│   │   │       │   │   │   ├── Clear.java
+│   │   │       │   │   │   ├── CountGreaterThanImpactSpeed.java
+│   │   │       │   │   │   ├── Help.java
+│   │   │       │   │   │   ├── Info.java
+│   │   │       │   │   │   ├── Insert.java
+│   │   │       │   │   │   ├── MinByImpactSpeed.java
+│   │   │       │   │   │   ├── Registration.java
+│   │   │       │   │   │   ├── RemoveAllByImpactSpeed.java
+│   │   │       │   │   │   ├── RemoveGreaterKey.java
+│   │   │       │   │   │   ├── RemoveKey.java
+│   │   │       │   │   │   ├── RemoveLowerKey.java
+│   │   │       │   │   │   ├── ReplaceIfLowe.java
+│   │   │       │   │   │   ├── Show.java
+│   │   │       │   │   │   └── Update.java
+│   │   │       │   │   ├── ClientCommand.java
+│   │   │       │   │   ├── ClientCommandInterface.java
+│   │   │       │   │   ├── CommandExecutor.java
+│   │   │       │   │   ├── CommandMap.java
+│   │   │       │   │   ├── CommandMapForHumanBeing.java
+│   │   │       │   │   └── ExecuteScript.java
+│   │   │       │   ├── network
+│   │   │       │   │   ├── ServerUnavailableException.java
+│   │   │       │   │   └── UdpClient.java
+│   │   │       │   └── Main.java
+│   │   │       ├── common
+│   │   │       │   ├── collection
+│   │   │       │   │   ├── HumanBeing
+│   │   │       │   │   │   ├── comparators
+│   │   │       │   │   │   │   ├── HumanBeingComparator.java
+│   │   │       │   │   │   │   └── HumanBeingComparatorByImpactSpeed.java
+│   │   │       │   │   │   ├── Car.java
+│   │   │       │   │   │   ├── Coordinates.java
+│   │   │       │   │   │   ├── HumanBeing.java
+│   │   │       │   │   │   └── WeaponType.java
+│   │   │       │   │   ├── HavingId.java
+│   │   │       │   │   └── User.java
+│   │   │       │   ├── exception
+│   │   │       │   │   └── CommandException.java
+│   │   │       │   ├── service
+│   │   │       │   │   ├── CommandRequest.java
+│   │   │       │   │   ├── CommandResponse.java
+│   │   │       │   │   └── Serializer.java
+│   │   │       │   └── validators
+│   │   │       │       ├── InputValidator.java
+│   │   │       │       └── Validator.java
+│   │   │       └── server
+│   │   │           ├── collections
+│   │   │           │   ├── CollectionManager.java
+│   │   │           │   ├── HumanBeingManager.java
+│   │   │           │   ├── HumanBeingSqlManager.java
+│   │   │           │   ├── MetaSqlManager.java
+│   │   │           │   ├── SqlManager.java
+│   │   │           │   ├── UserManager.java
+│   │   │           │   └── UsersSqlManager.java
+│   │   │           ├── commands
+│   │   │           │   ├── HumanBeingCommands
+│   │   │           │   │   ├── Authorization.java
+│   │   │           │   │   ├── Clear.java
+│   │   │           │   │   ├── CountGreaterThanImpactSpeed.java
+│   │   │           │   │   ├── Help.java
+│   │   │           │   │   ├── Info.java
+│   │   │           │   │   ├── Insert.java
+│   │   │           │   │   ├── MinByImpactSpeed.java
+│   │   │           │   │   ├── Registration.java
+│   │   │           │   │   ├── RemoveAllByImpactSpeed.java
+│   │   │           │   │   ├── RemoveGreaterKey.java
+│   │   │           │   │   ├── RemoveKey.java
+│   │   │           │   │   ├── RemoveLowerKey.java
+│   │   │           │   │   ├── ReplaceIfLowe.java
+│   │   │           │   │   ├── Show.java
+│   │   │           │   │   └── Update.java
+│   │   │           │   ├── CommandExecutor.java
+│   │   │           │   ├── CommandMap.java
+│   │   │           │   ├── CommandMapForHumanBeing.java
+│   │   │           │   └── ServerCommand.java
+│   │   │           ├── logging
+│   │   │           │   └── ServerLogger.java
+│   │   │           ├── network
+│   │   │           │   ├── RequestHandler.java
+│   │   │           │   ├── ResponseSender.java
+│   │   │           │   ├── SendResponseTask.java
+│   │   │           │   └── UdpServer.java
+│   │   │           └── Main.java
+│   │   └── resources
+│   └── test
+│       └── java
+├── pom.xml
+└── README.md
+
+================================================================================
+СОДЕРЖАНИЕ ФАЙЛОВ:
+================================================================================
+
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\builders\humanBeingBuilder\CarBuilder.java
+============================================================
+package lab7.client.builders.humanBeingBuilder;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.common.collection.HumanBeing.Car;
+import lab7.common.validators.InputValidator;
+
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+
+public class CarBuilder extends ObjectBuilder<Car> {
+
+  @Override
+  public Car build() throws IllegalArgumentException {
+    try {
+      System.out.println("Создание Car:");
+      Car car = new Car();
+      InputValidator inputValidator = new InputValidator();
+      String nextLine;
+
+      boolean cool;
+      while (true) {
+        try {
+          System.out.println("Введите значение cool(тип - boolean, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            if (!nextLine.equalsIgnoreCase("true") && !nextLine.equalsIgnoreCase("false")) {
+              throw new InputMismatchException();
+            }
+            cool = Boolean.parseBoolean(nextLine);
+            car.setCool(cool);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+      return car;
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(
+          "Во время конструирования объекта произошла ошибка: " + e.getMessage());
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\builders\humanBeingBuilder\CoordinatesBuilder.java
+============================================================
+package lab7.client.builders.humanBeingBuilder;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.common.collection.HumanBeing.Coordinates;
+import lab7.common.validators.InputValidator;
+
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+
+public class CoordinatesBuilder extends ObjectBuilder<Coordinates> {
+
+  @Override
+  public Coordinates build() throws IllegalArgumentException {
+    try {
+      System.out.println("Создание Coordinates:");
+      Coordinates coordinates = new Coordinates();
+      InputValidator inputValidator = new InputValidator();
+      String nextLine;
+
+      Double x;
+      while (true) {
+        try {
+          System.out.println("Введите значение x (тип - Double, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            x = Double.parseDouble(nextLine);
+            coordinates.setX(x);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException | NumberFormatException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+
+      long y;
+      while (true) {
+        try {
+          System.out.println("Введите значение y (тип - long, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            y = Long.parseLong(nextLine);
+            coordinates.setY(y);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException | NumberFormatException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+      return coordinates;
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(
+          "Во время конструирования объекта произошла ошибка: " + e.getMessage());
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\builders\humanBeingBuilder\HumanBeingBuilder.java
+============================================================
+package lab7.client.builders.humanBeingBuilder;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.validators.InputValidator;
+
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+
+public class HumanBeingBuilder extends ObjectBuilder<HumanBeing> {
+
+  @Override
+  public HumanBeing build() throws IllegalArgumentException {
+    try {
+      System.out.println("Создание HumanBeing:");
+      HumanBeing humanBeing = new HumanBeing();
+      InputValidator inputValidator = new InputValidator();
+      String nextLine;
+
+      String name;
+      while (true) {
+        System.out.println("Введите значение name (тип - String, не может быть пустым):");
+        nextLine = scanner.nextLine();
+        if (inputValidator.validate(nextLine)) {
+          name = nextLine;
+          humanBeing.setName(name);
+          break;
+        } else {
+          System.out.println("Строка на должна быть пустой. Попробуй еще.");
+        }
+      }
+
+      Date date = new Date();
+      humanBeing.setCreationDate(date);
+
+      CoordinatesBuilder coordinatesBuilder = new CoordinatesBuilder();
+      coordinatesBuilder.setScanner(scanner);
+      humanBeing.setCoordinates(coordinatesBuilder.build());
+
+      Boolean realHero;
+      while (true) {
+        try {
+          System.out.println("Введите значение realHero (тип - Boolean, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            if (!nextLine.equalsIgnoreCase("true") && !nextLine.equalsIgnoreCase("false")) {
+              throw new InputMismatchException();
+            }
+            realHero = Boolean.valueOf(nextLine);
+            humanBeing.setRealHero(realHero);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+
+      boolean hasToothpick;
+      while (true) {
+        try {
+          System.out.println(
+              "Введите значение hasToothpick (тип - boolean, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            if (!nextLine.equalsIgnoreCase("true") && !nextLine.equalsIgnoreCase("false")) {
+              throw new InputMismatchException();
+            }
+            hasToothpick = Boolean.parseBoolean(nextLine);
+            humanBeing.setHasToothpick(hasToothpick);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+
+      Long impactSpeed;
+      while (true) {
+        try {
+          System.out.println(
+              "Введите значение impactSpeed (тип - Long, значение может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (nextLine.isBlank()) {
+            impactSpeed = null;
+          } else {
+            impactSpeed = Long.parseLong(nextLine);
+          }
+          humanBeing.setImpactSpeed(impactSpeed);
+          break;
+        } catch (InputMismatchException | NumberFormatException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+
+      String soundtrackName;
+      while (true) {
+        System.out.println("Введите значение soundtrackName (тип - String, не может быть пустым):");
+        nextLine = scanner.nextLine();
+        if (inputValidator.validate(nextLine)) {
+          soundtrackName = nextLine;
+          humanBeing.setSoundtrackName(soundtrackName);
+          break;
+        } else {
+          System.out.println("Строка на должна быть пустой. Попробуй еще.");
+        }
+      }
+
+      long minutesOfWaiting;
+      while (true) {
+        try {
+          System.out.println(
+              "Введите значение minutesOfWaiting (тип - long, не может быть пустым):");
+          nextLine = scanner.nextLine();
+          if (inputValidator.validate(nextLine)) {
+            minutesOfWaiting = Long.parseLong(nextLine);
+            humanBeing.setMinutesOfWaiting(minutesOfWaiting);
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (InputMismatchException | NumberFormatException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+
+      WeaponTypeBuilder weaponTypeBuilder = new WeaponTypeBuilder();
+      weaponTypeBuilder.setScanner(scanner);
+      humanBeing.setWeaponType(weaponTypeBuilder.build());
+
+      CarBuilder carBuilder = new CarBuilder();
+      carBuilder.setScanner(scanner);
+      humanBeing.setCar(carBuilder.build());
+
+      return humanBeing;
+
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(
+          "Во время конструирования объекта произошла ошибка: " + e.getMessage());
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\builders\humanBeingBuilder\WeaponTypeBuilder.java
+============================================================
+package lab7.client.builders.humanBeingBuilder;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.common.collection.HumanBeing.WeaponType;
+import lab7.common.validators.InputValidator;
+
+import java.util.NoSuchElementException;
+
+public class WeaponTypeBuilder extends ObjectBuilder<WeaponType> {
+
+  public WeaponType build() throws IllegalArgumentException {
+    try {
+      System.out.println("Создание WeaponType:");
+      InputValidator inputValidator = new InputValidator();
+      String nextLine;
+      while (true) {
+        try {
+          System.out.println("Выберите значение weaponType:");
+          for (WeaponType vales : WeaponType.values()) {
+            System.out.println(vales);
+          }
+          nextLine = scanner.nextLine().toUpperCase();
+          if (inputValidator.validate(nextLine)) {
+            break;
+          } else {
+            System.out.println("Строка на должна быть пустой. Попробуй еще.");
+          }
+        } catch (IllegalArgumentException e) {
+          System.out.println("Неправильное значение ввода. Попробуй еще.");
+        }
+      }
+      return WeaponType.valueOf(nextLine);
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(
+          "Во время конструирования объекта произошла ошибка: " + e.getMessage());
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\builders\ObjectBuilder.java
+============================================================
+package lab7.client.builders;
+
+import java.util.Scanner;
+
+public abstract class ObjectBuilder<T> {
+  protected Scanner scanner;
+
+  public abstract T build() throws IllegalArgumentException;
+
+  public void setScanner(Scanner scanner) {
+    this.scanner = scanner;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Authorization.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Authorization extends ClientCommand {
+
+    @Override
+    public String getName() {
+        return "authorization";
+    }
+
+    @Override
+    public boolean checkArgument() {
+        if (getArgument() == null) {
+            return true;
+        } else {
+            System.out.println("authorization не имеет аргументов!");
+            return false;
+        }
+    }
+
+    @Override
+    public CommandRequest<?, ?> buildRequest() throws CommandException {
+        return new CommandRequest<>(getName());
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Clear.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Clear extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "clear";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      return true;
+    } else {
+      System.out.println("clear не имеет аргументов!");
+      return false;
+    }
+  }
+
+  @Override
+  public CommandRequest<?, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\CountGreaterThanImpactSpeed.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class CountGreaterThanImpactSpeed extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "count_greater_than_impact_speed";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("count_greater_than_impact_speed имеет аргумент типа Long");
+      return false;
+    } else {
+      try {
+        Long.parseLong(getArgument());
+        return true;
+      } catch (NumberFormatException e) {
+        System.out.println("count_greater_than_impact_speed имеет аргумент типа Long");
+        return false;
+      }
+    }
+  }
+
+  @Override
+  public CommandRequest<Long, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), Long.parseLong(getArgument()));
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+    System.out.println(commandResponse.getData());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Help.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+import java.util.HashMap;
+
+public class Help extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "help";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      return true;
+    } else {
+      System.out.println("help не имеет аргументов!");
+      return false;
+    }
+  }
+
+  @Override
+  public CommandRequest<?, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+    HashMap<String, String> helpMap = (HashMap<String, String>) commandResponse.getData();
+    for (String key : helpMap.keySet()) {
+      System.out.println(key + ": " + helpMap.get(key));
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Info.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Info extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "info";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      return true;
+    } else {
+      System.out.println("info не имеет аргументов!");
+      return false;
+    }
+  }
+
+  @Override
+  public CommandRequest<?, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Insert.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Insert<T> extends ClientCommand {
+
+  private final ObjectBuilder<T> builder;
+
+  public Insert(ObjectBuilder<T> builder) {
+    this.builder = builder;
+  }
+
+  @Override
+  public String getName() {
+    return "insert";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("insert имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public CommandRequest<String, T> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument(), builder.build());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\MinByImpactSpeed.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class MinByImpactSpeed<T> extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "min_by_impact_speed";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      return true;
+    } else {
+      System.out.println("min_by_impact_speed не имеет аргументов!");
+      return false;
+    }
+  }
+
+  @Override
+  public CommandRequest<?, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+    T object = (T) commandResponse.getData();
+    if (object != null) {
+      System.out.println(object);
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Registration.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Registration extends ClientCommand {
+
+    @Override
+    public String getName() {
+        return "registration";
+    }
+
+    @Override
+    public boolean checkArgument() {
+        if (getArgument() == null) {
+            return true;
+        } else {
+            System.out.println("registration не имеет аргументов!");
+            return false;
+        }
+    }
+
+    @Override
+    public CommandRequest<?, ?> buildRequest() throws CommandException {
+        return new CommandRequest<>(getName());
+    }
+
+    @Override
+    public void read(CommandResponse<?> commandResponse) throws CommandException {
+        System.out.println(commandResponse.getMessage());
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\RemoveAllByImpactSpeed.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class RemoveAllByImpactSpeed extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "remove_all_by_impact_speed";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("remove_all_by_impact_speed имеет аргумент типа Long");
+      return false;
+    } else {
+      try {
+        Long.parseLong(getArgument());
+        return true;
+      } catch (NumberFormatException e) {
+        System.out.println("remove_all_by_impact_speed имеет аргумент типа Long");
+        return false;
+      }
+    }
+  }
+
+  @Override
+  public CommandRequest<Long, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), Long.parseLong(getArgument()));
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\RemoveGreaterKey.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class RemoveGreaterKey extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "remove_greater_key";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("remove_greater_key имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public CommandRequest<String, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\RemoveKey.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class RemoveKey extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "remove_key";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("remove_key имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public CommandRequest<String, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\RemoveLowerKey.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class RemoveLowerKey extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "remove_lower_key";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("remove_lower_key имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public CommandRequest<String, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\ReplaceIfLowe.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class ReplaceIfLowe<T> extends ClientCommand {
+
+  private final ObjectBuilder<T> builder;
+
+  public ReplaceIfLowe(ObjectBuilder<T> builder) {
+    this.builder = builder;
+  }
+
+  @Override
+  public String getName() {
+    return "replace_if_lowe";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("replace_if_lowe имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public CommandRequest<String, T> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), getArgument(), builder.build());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Show.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+import java.util.LinkedHashMap;
+
+public class Show<T> extends ClientCommand {
+
+  @Override
+  public String getName() {
+    return "show";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      return true;
+    } else {
+      System.out.println("show не имеет аргументов!");
+      return false;
+    }
+  }
+
+  @Override
+  public CommandRequest<?, ?> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+    if (commandResponse.getData() != null) {
+      LinkedHashMap<String, T> map = (LinkedHashMap<String, T>) commandResponse.getData();
+      for (String key : map.keySet()) {
+        System.out.println(key + ": " + map.get(key));
+      }
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\HumanBeingCommands\Update.java
+============================================================
+package lab7.client.commands.HumanBeingCommands;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.client.commands.ClientCommand;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public class Update<T> extends ClientCommand {
+
+  private final ObjectBuilder<T> builder;
+
+  public Update(ObjectBuilder<T> builder) {
+    this.builder = builder;
+  }
+
+  @Override
+  public String getName() {
+    return "update";
+  }
+
+  @Override
+  public boolean checkArgument() {
+    if (getArgument() == null) {
+      System.out.println("update имеет аргумент типа int");
+      return false;
+    } else {
+      try {
+        Integer.parseInt(getArgument());
+        return true;
+      } catch (NumberFormatException e) {
+        System.out.println("update имеет аргумент типа int");
+        return false;
+      }
+    }
+  }
+
+  @Override
+  public CommandRequest<Integer, T> buildRequest() throws CommandException {
+    return new CommandRequest<>(getName(), Integer.parseInt(getArgument()), builder.build());
+  }
+
+  @Override
+  public void read(CommandResponse<?> commandResponse) throws CommandException {
+    System.out.println(commandResponse.getMessage());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\ClientCommand.java
+============================================================
+package lab7.client.commands;
+
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public abstract class ClientCommand implements ClientCommandInterface {
+
+  private String argument;
+
+  @Override
+  public abstract String getName();
+
+  public String getArgument() {
+    return argument;
+  }
+
+  public void setArgument(String argument) {
+    this.argument = argument;
+  }
+
+  @Override
+  public abstract boolean checkArgument();
+
+  @Override
+  public abstract CommandRequest<?, ?> buildRequest() throws CommandException;
+
+  @Override
+  public abstract void read(CommandResponse<?> commandResponse) throws CommandException;
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\ClientCommandInterface.java
+============================================================
+package lab7.client.commands;
+
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public interface ClientCommandInterface {
+
+  String getName();
+
+  boolean checkArgument();
+
+  CommandRequest<?, ?> buildRequest() throws CommandException;
+
+  void read(CommandResponse<?> commandResponse) throws CommandException;
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\CommandExecutor.java
+============================================================
+package lab7.client.commands;
+
+import lab7.client.builders.ObjectBuilder;
+import lab7.client.network.ServerUnavailableException;
+import lab7.client.network.UdpClient;
+import lab7.common.exception.CommandException;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.common.validators.InputValidator;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+public class CommandExecutor<C extends Map<String, ClientCommand>, T> {
+
+  private final C commandMap;
+  private final ObjectBuilder<T> builder;
+  private final UdpClient udpClient;
+  private final ExecuteScript<C, T> executeScript;
+  private boolean running = true;
+  private Scanner scanner;
+  private boolean fromFile;
+  private final InputValidator inputValidator;
+  private String user;
+  private String password;
+
+  public CommandExecutor(
+          ObjectBuilder<T> builder, UdpClient udpClient, C commandMap) {
+    this.builder = builder;
+    this.udpClient = udpClient;
+    this.commandMap = commandMap;
+    executeScript = new ExecuteScript<>(this);
+    inputValidator = new InputValidator();
+  }
+
+  public void startExecuting(Scanner scanner, boolean fromFile) {
+    this.scanner = scanner;
+    this.fromFile = fromFile;
+    builder.setScanner(scanner);
+    while (running && scanner.hasNextLine()) {
+      String line = scanner.nextLine().trim();
+      if (line.isEmpty()) continue;
+      try {
+        executeCommand(line.split(" "));
+        System.out.println();
+      } catch (CommandException e) {
+        System.out.println(e.getMessage());
+      }
+    }
+  }
+
+  public void executeCommand(String[] args) {
+    String argument = args.length > 1 ? args[1] : null;
+    if (args[0].equals("exit")) {
+      System.out.println("Завершение работы");
+      running = false;
+    } else if (args[0].equals("execute_script")) {
+      executeScript.execute(argument);
+    } else if (!commandMap.containsKey(args[0])) {
+      throw new CommandException("\nКоманды " + args[0] + " не обнаружено!");
+    } else {
+      try {
+        commandMap.get(args[0]).setArgument(argument);
+        if (commandMap.get(args[0]).checkArgument()) {
+          if (args[0].equals("registration") || args[0].equals("authorization")) {
+            registration();
+          }
+          CommandRequest<?, ?> request = commandMap.get(args[0]).buildRequest();
+          if (user != null) {
+            request.setUser(user, password);
+            CommandResponse<?> commandResponse = udpClient.sendRequest(request);
+            if (commandResponse.getCommand() != null) {
+              commandMap.get(commandResponse.getCommand()).read(commandResponse);
+            } else {
+              System.out.println(commandResponse.getMessage());
+            }
+          } else {
+            System.out.println("Для выполнения команд необходимо авторизоваться(команда authorization) или зарегистрироваться(команда registration) в системе");
+          }
+        } else {
+          System.out.println("Попробуйте еще раз");
+        }
+      } catch (IllegalArgumentException | NullPointerException | NoSuchElementException e) {
+        throw new CommandException(
+            "Выполнение команды "
+                + args[0]
+                + " пропущено из-за неправильных предоставленных аргументов:\n"
+                + e.getMessage());
+      } catch (ServerUnavailableException e) {
+        throw new CommandException(
+            "Выполнение команды "
+                + args[0]
+                + " прервано из-за ошибки работы с сервером:\n"
+                + e.getMessage());
+      } catch (Exception e) {
+        throw new CommandException(
+            "В командном менеджере произошла непредвиденная ошибка:\n" + e.getMessage());
+      }
+    }
+  }
+
+  public void registration() {
+    System.out.println("Введите имя пользователя:");
+    String nextLine = scanner.nextLine();
+    if (inputValidator.validate(nextLine)) {
+      user = nextLine;
+    }
+    System.out.println("Введите пароль:");
+    if (!fromFile) {
+      nextLine = String.valueOf(System.console().readPassword());
+      password = nextLine;
+    } else {
+      password = scanner.nextLine();
+    }
+    password += "P!QJyPh8";
+    try {
+      MessageDigest md2 = MessageDigest.getInstance("MD2");
+      byte[] hashBytes = md2.digest(password.getBytes());
+      password = HexFormat.of().formatHex(hashBytes);
+    } catch (NoSuchAlgorithmException e) {
+      System.out.println("Ошибка при хешировании пароля");
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\CommandMap.java
+============================================================
+package lab7.client.commands;
+
+import java.util.Map;
+
+public interface CommandMap<C extends Map<String, ClientCommand>> {
+  C getCommandMap();
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\CommandMapForHumanBeing.java
+============================================================
+package lab7.client.commands;
+
+import lab7.client.builders.humanBeingBuilder.HumanBeingBuilder;
+import lab7.client.commands.HumanBeingCommands.*;
+
+import java.util.LinkedHashMap;
+
+public class CommandMapForHumanBeing implements CommandMap<LinkedHashMap<String, ClientCommand>> {
+
+  private final LinkedHashMap<String, ClientCommand> commandMap;
+
+  public CommandMapForHumanBeing(HumanBeingBuilder humanBeingBuilder) {
+    this.commandMap = new LinkedHashMap<>();
+    commandMap.put("info", new Info());
+    commandMap.put("help", new Help());
+    commandMap.put("show", new Show<>());
+    commandMap.put("insert", new Insert<>(humanBeingBuilder));
+    commandMap.put("update", new Update<>(humanBeingBuilder));
+    commandMap.put("remove_key", new RemoveKey());
+    commandMap.put("clear", new Clear());
+    commandMap.put("replace_if_lowe", new ReplaceIfLowe<>(humanBeingBuilder));
+    commandMap.put("remove_greater_key", new RemoveGreaterKey());
+    commandMap.put("remove_lower_key", new RemoveLowerKey());
+    commandMap.put("remove_all_by_impact_speed", new RemoveAllByImpactSpeed());
+    commandMap.put("min_by_impact_speed", new MinByImpactSpeed<>());
+    commandMap.put("count_greater_than_impact_speed", new CountGreaterThanImpactSpeed());
+    commandMap.put("authorization", new Authorization());
+    commandMap.put("registration", new Registration());
+  }
+
+  public LinkedHashMap<String, ClientCommand> getCommandMap() {
+    return commandMap;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\commands\ExecuteScript.java
+============================================================
+package lab7.client.commands;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
+
+public class ExecuteScript<C extends Map<String, ClientCommand>, T> {
+
+  private final CommandExecutor<C, T> commandExecutor;
+  private ArrayList<String> list = new ArrayList<>();
+
+  public ExecuteScript(CommandExecutor<C, T> commandExecutor) {
+    this.commandExecutor = commandExecutor;
+  }
+
+  public boolean checkArgument(Object inputArgument) {
+    if (inputArgument == null) {
+      System.out.println("execute_script имеет аргумент типа String");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public void execute(String argument) {
+    if (checkArgument(argument)) {
+      try {
+        if (!list.contains(argument)) {
+          list.add(argument);
+          System.out.println("\nНачало выполнения скрипта \"" + argument + "\"\n");
+          commandExecutor.startExecuting(new Scanner(new FileInputStream(argument)), true);
+          System.out.println("\nКонец выполнения скрипта \"" + argument + "\"\n");
+          list.remove(argument);
+        } else {
+          System.out.println("Исполнение \"" + argument + "\" пропущено\n");
+        }
+      } catch (FileNotFoundException e) {
+        System.out.println("Файл \"" + argument + "\" не обнаружен.");
+      }
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\network\ServerUnavailableException.java
+============================================================
+package lab7.client.network;
+
+public class ServerUnavailableException extends RuntimeException {
+  public ServerUnavailableException(String message) {
+    super(message);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\network\UdpClient.java
+============================================================
+package lab7.client.network;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.common.service.Serializer;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.PortUnreachableException;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+
+public class UdpClient implements AutoCloseable {
+  private DatagramChannel channel;
+  private final int timeout;
+  private final int maxRetries;
+  private ByteBuffer responseBuffer = ByteBuffer.allocate(65536);
+  private ByteBuffer requestBuffer = ByteBuffer.allocate(65536);
+
+  public UdpClient(int timeout, int maxRetries){
+    this.timeout = timeout;
+    this.maxRetries = maxRetries;
+  }
+
+  public void connect(String host, int port) throws IOException {
+    InetSocketAddress serverAddress = new InetSocketAddress(host, port);
+
+    this.channel = DatagramChannel.open();
+    channel.configureBlocking(false);
+    channel.connect(serverAddress);
+  }
+
+  public CommandResponse<?> sendRequest(CommandRequest<?, ?> request)
+      throws ServerUnavailableException {
+    try {
+      byte[] requestData = Serializer.serialize(request);
+      requestBuffer.clear();
+      responseBuffer.clear();
+      requestBuffer = ByteBuffer.wrap(requestData);
+
+      int retries = 0;
+      while (retries < maxRetries) {
+        try {
+          channel.write(requestBuffer);
+          long startTime = System.currentTimeMillis();
+          while (System.currentTimeMillis() - startTime < timeout) {
+            try {
+              if (channel.read(responseBuffer) > 0) {
+                responseBuffer.flip();
+                return Serializer.deserialize(responseBuffer.array(), CommandResponse.class);
+              }
+            } catch (PortUnreachableException e) {
+            }
+            Thread.sleep(100);
+          }
+
+          retries++;
+          System.out.println("Таймаут ответа, попытка " + retries + "/" + maxRetries);
+
+        } catch (InterruptedException e) {
+          Thread.currentThread().interrupt();
+          throw new ServerUnavailableException("Прервано ожидание ответа:" + e.getMessage());
+        } catch (ClassNotFoundException e) {
+          throw new ServerUnavailableException("Ошибка при передаче данных:" + e.getMessage());
+        }
+      }
+    } catch (IOException e) {
+      throw new ServerUnavailableException("Ошибка подключения к серверу");
+    }
+    throw new ServerUnavailableException("Сервер недоступен после " + maxRetries + " попыток");
+  }
+
+  @Override
+  public void close() throws IOException {
+    if (channel != null && channel.isOpen()) {
+      channel.close();
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\client\Main.java
+============================================================
+package lab7.client;
+
+import lab7.client.builders.humanBeingBuilder.HumanBeingBuilder;
+import lab7.client.commands.ClientCommand;
+import lab7.client.commands.CommandExecutor;
+import lab7.client.commands.CommandMap;
+import lab7.client.commands.CommandMapForHumanBeing;
+import lab7.client.network.UdpClient;
+import lab7.common.collection.HumanBeing.HumanBeing;
+
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.LinkedHashMap;
+import java.util.Scanner;
+
+public class Main {
+    private static final String SERVER_HOST = "localhost";
+    private static final int TIMEOUT_MS = 5000;
+    private static final int MAX_RETRIES = 3;
+
+    public static void main(String[] args) {
+        System.out.println("Запуск приложения. Напишите номер порта для подключения:");
+        int serverPort = 0;
+        while (serverPort == 0) {
+            try {
+                int nextInt = (new Scanner(System.in)).nextInt();
+                if (nextInt > 1024 && nextInt < 65536) {
+                    serverPort = nextInt;
+                }
+                else {
+                    throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Необходимо ввести число от 1024 до 65536");
+            }
+        }
+        UdpClient udpManager = new UdpClient(TIMEOUT_MS, MAX_RETRIES);
+        try {
+            udpManager.connect(SERVER_HOST, serverPort);
+        } catch (IOException e) {
+            System.err.println("Не удалось подключиться к серверу.");
+        }
+
+        HumanBeingBuilder builder = new HumanBeingBuilder();
+        CommandMap<LinkedHashMap<String, ClientCommand>> commandMap =
+                new CommandMapForHumanBeing(builder);
+        CommandExecutor<LinkedHashMap<String, ClientCommand>, HumanBeing> commandExecutor =
+                new CommandExecutor<>(builder, udpManager, commandMap.getCommandMap());
+        System.out.println("Для выполнения команд необходимо авторизоваться(команда authorization) или зарегистрироваться(команда registration) в системе");
+        System.out.println("Для списка доступных команд напишите \"help\"");
+        commandExecutor.startExecuting(new Scanner(System.in), false);
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\comparators\HumanBeingComparator.java
+============================================================
+package lab7.common.collection.HumanBeing.comparators;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+
+import java.util.Comparator;
+
+public class HumanBeingComparator implements Comparator<HumanBeing> {
+
+  @Override
+  public int compare(HumanBeing o1, HumanBeing o2) {
+    if (o1 == null) {
+      if (o2 == null) {
+        return 0;
+      } else {
+        return -1;
+      }
+    }
+    return o1.compareTo(o2);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\comparators\HumanBeingComparatorByImpactSpeed.java
+============================================================
+package lab7.common.collection.HumanBeing.comparators;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+
+import java.util.Comparator;
+
+public class HumanBeingComparatorByImpactSpeed implements Comparator<HumanBeing> {
+
+  @Override
+  public int compare(HumanBeing o1, HumanBeing o2) {
+    if (o1 == null) {
+      if (o2 == null) {
+        return 0;
+      } else {
+        return -1;
+      }
+    }
+    return Long.compare(o1.getImpactSpeed(), o2.getImpactSpeed());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\Car.java
+============================================================
+package lab7.common.collection.HumanBeing;
+
+import java.io.Serializable;
+
+public class Car implements Comparable<Car>, Serializable {
+  private boolean cool;
+
+  public Car(boolean cool) {
+    this.cool = cool;
+  }
+
+  public Car() {}
+
+  public void setCool(boolean cool) {
+    this.cool = cool;
+  }
+
+  public boolean getCool() {
+    return cool;
+  }
+
+  @Override
+  public int compareTo(Car o) {
+    if (o == null) {
+      return 1;
+    }
+    return Boolean.compare(this.cool, o.cool);
+  }
+
+  @Override
+  public String toString() {
+    if (cool) {
+      return "Cool car";
+    }
+    return "Not a cool car";
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\Coordinates.java
+============================================================
+package lab7.common.collection.HumanBeing;
+
+import java.io.Serializable;
+
+public class Coordinates implements Comparable<Coordinates>, Serializable {
+  private Double x; // Поле не может быть null
+  private long y;
+
+  public Coordinates(Double x, long y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  public Coordinates() {}
+
+  public void setX(Double x) {
+    this.x = x;
+  }
+
+  public Double getX() {
+    return x;
+  }
+
+  public void setY(long y) {
+    this.y = y;
+  }
+
+  public long getY() {
+    return y;
+  }
+
+  @Override
+  public int compareTo(Coordinates o) {
+    if (o == null) {
+      return 1;
+    }
+    int result = this.x.compareTo(o.x);
+    if (result == 0) result = Long.compare(this.y, o.y);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "Coordinates: {" + "x = " + x + ", y = " + y + "}";
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\HumanBeing.java
+============================================================
+package lab7.common.collection.HumanBeing;
+
+import lab7.common.collection.HavingId;
+import lab7.common.collection.User;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class HumanBeing implements Comparable<HumanBeing>, HavingId, Serializable {
+  private int id; // Значение поля должно быть больше 0, Значение этого поля должно быть уникальным,
+  // Значение этого поля должно генерироваться автоматически
+  private String name; // Поле не может быть null, Строка не может быть пустой
+  private Coordinates coordinates; // Поле не может быть null
+  private Date creationDate; // Поле не может быть null, Значение этого поля должно генерироваться
+  // автоматически
+  private Boolean realHero; // Поле не может быть null
+  private boolean hasToothpick;
+  private Long impactSpeed;
+  private String soundtrackName; // Поле не может быть null
+  private long minutesOfWaiting; // Поле может быть null
+  private WeaponType weaponType; // Поле не может быть null
+  private Car car; // Поле не может быть null
+  private User user;
+
+  public HumanBeing(
+      int id,
+      String name,
+      Coordinates coordinates,
+      Date creationDate,
+      Boolean realHero,
+      boolean hasToothpick,
+      Long impactSpeed,
+      String soundtrackName,
+      long minutesOfWaiting,
+      WeaponType weaponType,
+      Car car) {
+    this.id = id;
+    this.name = name;
+    this.coordinates = coordinates;
+    this.creationDate = creationDate;
+    this.realHero = realHero;
+    this.hasToothpick = hasToothpick;
+    this.impactSpeed = impactSpeed;
+    this.soundtrackName = soundtrackName;
+    this.minutesOfWaiting = minutesOfWaiting;
+    this.weaponType = weaponType;
+    this.car = car;
+  }
+
+  public HumanBeing() {}
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setCoordinates(Coordinates coordinates) {
+    this.coordinates = coordinates;
+  }
+
+  public Coordinates getCoordinates() {
+    return coordinates;
+  }
+
+  public void setCreationDate(Date creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public Date getCreationDate() {
+    return creationDate;
+  }
+
+  public void setRealHero(Boolean realHero) {
+    this.realHero = realHero;
+  }
+
+  public Boolean getRealHero() {
+    return realHero;
+  }
+
+  public void setHasToothpick(boolean hasToothpick) {
+    this.hasToothpick = hasToothpick;
+  }
+
+  public boolean getHasToothpick() {
+    return hasToothpick;
+  }
+
+  public void setImpactSpeed(Long impactSpeed) {
+    this.impactSpeed = impactSpeed;
+  }
+
+  public Long getImpactSpeed() {
+    return impactSpeed;
+  }
+
+  public void setSoundtrackName(String soundtrackName) {
+    this.soundtrackName = soundtrackName;
+  }
+
+  public String getSoundtrackName() {
+    return soundtrackName;
+  }
+
+  public void setMinutesOfWaiting(long minutesOfWaiting) {
+    this.minutesOfWaiting = minutesOfWaiting;
+  }
+
+  public long getMinutesOfWaiting() {
+    return minutesOfWaiting;
+  }
+
+  public void setWeaponType(WeaponType weaponType) {
+    this.weaponType = weaponType;
+  }
+
+  public WeaponType getWeaponType() {
+    return weaponType;
+  }
+
+  public void setCar(Car car) {
+    this.car = car;
+  }
+
+  public Car getCar() {
+    return car;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  @Override
+  public int compareTo(HumanBeing o) {
+    int result = this.name.compareTo(o.name);
+    if (result == 0) {
+      result = this.coordinates.compareTo(o.coordinates);
+    }
+    if (result == 0) {
+      result = this.creationDate.compareTo(o.creationDate);
+    }
+    if (result == 0) {
+      result = this.realHero.compareTo(o.realHero);
+    }
+    if (result == 0) {
+      result = Boolean.compare(this.hasToothpick, o.hasToothpick);
+    }
+    if (result == 0) {
+      if (this.impactSpeed != null) {
+        result = this.impactSpeed.compareTo(o.impactSpeed);
+      } else if (o.impactSpeed != null) {
+        result = -o.impactSpeed.compareTo(this.impactSpeed);
+      }
+    }
+    if (result == 0) {
+      result = this.soundtrackName.compareTo(o.soundtrackName);
+    }
+    if (result == 0) {
+      result = Long.compare(this.minutesOfWaiting, o.minutesOfWaiting);
+    }
+    if (result == 0) {
+      result = this.weaponType.compareTo(o.weaponType);
+    }
+    if (result == 0) {
+      result = this.car.compareTo(o.car);
+    }
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    String result;
+    result =
+        "HumanBeing: {"
+            + "id = "
+            + id
+            + ", name = '"
+            + name
+            + "'"
+            + ", coordinates = "
+            + coordinates.toString()
+            + ", creationDate = "
+            + creationDate.toString()
+            + ", realHero = "
+            + realHero
+            + ", hasToothpick = "
+            + hasToothpick;
+    if (impactSpeed == null) {
+      result += ", impactSpeed = null";
+    } else {
+      result += ", impactSpeed = " + impactSpeed;
+    }
+    result +=
+        ", soundtrackName = "
+                + soundtrackName
+                + ", minutesOfWaiting = "
+                + minutesOfWaiting
+                + ", weaponType = "
+                + weaponType
+                + ", car = "
+                + car
+                + ", user = "
+                + user.login
+            + "}";
+    return result;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HumanBeing\WeaponType.java
+============================================================
+package lab7.common.collection.HumanBeing;
+
+import java.io.Serializable;
+
+public enum WeaponType implements Serializable {
+  HAMMER,
+  AXE,
+  PISTOL;
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\HavingId.java
+============================================================
+package lab7.common.collection;
+
+public interface HavingId {
+  int getId();
+
+  void setId(int id);
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\collection\User.java
+============================================================
+package lab7.common.collection;
+
+import java.io.Serializable;
+
+public class User implements Comparable<User>, Serializable {
+    public String login;
+    public String password;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int compareTo(User o){
+        int result = login.compareTo(o.getLogin());
+        if(result == 0){
+            result = password.compareTo(o.getPassword());
+        }
+        return result;
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\exception\CommandException.java
+============================================================
+package lab7.common.exception;
+
+public class CommandException extends RuntimeException {
+  public CommandException(String message) {
+    super(message);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\service\CommandRequest.java
+============================================================
+package lab7.common.service;
+
+import java.io.Serializable;
+
+public class CommandRequest<T, B> implements Serializable {
+  private final String commandName;
+  private String user;
+  private String password;
+  private T argument;
+  private B object;
+
+  public CommandRequest(String commandName) {
+    this.commandName = commandName;
+  }
+
+  public CommandRequest(String commandName, T argument) {
+    this.commandName = commandName;
+    this.argument = argument;
+  }
+
+  public CommandRequest(String commandName, T argument, B object) {
+    this.commandName = commandName;
+    this.argument = argument;
+    this.object = object;
+  }
+
+  public void setUser(String user, String password) {
+    this.user = user;
+    this.password = password;
+  }
+
+  public String getCommandName() {
+    return commandName;
+  }
+
+  public String getUser() {
+    return user;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public B getObject() {
+    return object;
+  }
+
+  public T getArgument() {
+    return argument;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\service\CommandResponse.java
+============================================================
+package lab7.common.service;
+
+import java.io.Serializable;
+
+public class CommandResponse<T> implements Serializable {
+  private final String command;
+  private final String message;
+  private T data;
+
+  public CommandResponse(String command, String message) {
+    this.command = command;
+    this.message = message;
+  }
+
+  public CommandResponse(String command, String message, T data) {
+    this.command = command;
+    this.message = message;
+    this.data = data;
+  }
+
+  public String getCommand() {
+    return command;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public T getData() {
+    return data;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\service\Serializer.java
+============================================================
+package lab7.common.service;
+
+import java.io.*;
+
+public class Serializer {
+  public static byte[] serialize(Object obj) throws IOException {
+    try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream)) {
+      objectStream.writeObject(obj);
+      return byteStream.toByteArray();
+    }
+  }
+
+  public static <T> T deserialize(byte[] data, Class<T> clazz)
+      throws IOException, ClassNotFoundException {
+    try (ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+        ObjectInputStream objectStream = new ObjectInputStream(byteStream)) {
+      return clazz.cast(objectStream.readObject());
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\validators\InputValidator.java
+============================================================
+package lab7.common.validators;
+
+public class InputValidator implements Validator<String> {
+
+  public boolean validate(String input) {
+    return input != null && !input.isBlank();
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\common\validators\Validator.java
+============================================================
+package lab7.common.validators;
+
+public interface Validator<T> {
+  boolean validate(T value);
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\CollectionManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public interface CollectionManager<C extends Map<String, T>, T> {
+  C getCollection();
+
+  void addElementToCollection(String key, T object, User user);
+
+  void updateElementToCollection(String key, T object, User user);
+
+  void removeElementToCollection(String key, User user);
+
+  void clearCollection(User user);
+
+  void loadCollection();
+
+  boolean checkObjectByKey(String key);
+
+  void sortCollection();
+
+  String getKeyById(Integer id);
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\HumanBeingManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.collection.User;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class HumanBeingManager
+    implements CollectionManager<LinkedHashMap<String, HumanBeing>, HumanBeing> {
+  private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+  private LinkedHashMap<String, HumanBeing> humanBeingLinkedHashMap;
+  private final HumanBeingSqlManager sqlManager;
+  private final UsersSqlManager usersSqlManager;
+
+  public HumanBeingManager(HumanBeingSqlManager sqlManager, UsersSqlManager usersSqlManager) {
+    this.sqlManager = sqlManager;
+    this.usersSqlManager = usersSqlManager;
+    loadCollection();
+  }
+
+  @Override
+  public void loadCollection() {
+    readWriteLock.writeLock().lock();
+    try {
+      humanBeingLinkedHashMap = sqlManager.loadData();
+    } catch (Exception e) {
+     throw new RuntimeException("Ошибка подключения к базе данных");
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public LinkedHashMap<String, HumanBeing> getCollection() {
+    readWriteLock.readLock().lock();
+    try {
+      return humanBeingLinkedHashMap;
+    } finally {
+      readWriteLock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public void addElementToCollection(String key, HumanBeing humanBeing, User user) {
+    readWriteLock.writeLock().lock();
+    try{
+      humanBeing.setUser(user);
+      sqlManager.addObject(key, humanBeing, usersSqlManager.getIdUser(user));
+      loadCollection();
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public void updateElementToCollection(String key, HumanBeing humanBeing, User user) {
+    readWriteLock.writeLock().lock();
+    try {
+      HumanBeing existingHuman = humanBeingLinkedHashMap.get(key);
+      if (existingHuman != null && existingHuman.getUser().compareTo(user) == 0) {
+        removeElementToCollection(key, user);
+        addElementToCollection(key, humanBeing, user);
+      }
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public void removeElementToCollection(String key, User user) {
+    readWriteLock.writeLock().lock();
+    try {
+      HumanBeing human = humanBeingLinkedHashMap.get(key);
+      if (human != null && human.getUser().compareTo(user) == 0) {
+        humanBeingLinkedHashMap.remove(key);
+        sqlManager.deleteObject(key);
+      }
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public void clearCollection(User user) {
+    readWriteLock.writeLock().lock();
+    try {
+      Long userId = usersSqlManager.getIdUser(user);
+      sqlManager.clear(userId);
+      var iterator = humanBeingLinkedHashMap.entrySet().iterator();
+      while (iterator.hasNext()) {
+        var entry = iterator.next();
+        if (entry.getValue().getUser().compareTo(user) == 0) {
+          iterator.remove();
+        }
+      }
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public boolean checkObjectByKey(String key) {
+    readWriteLock.readLock().lock();
+    try {
+      return humanBeingLinkedHashMap.containsKey(key);
+    } finally {
+      readWriteLock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public void sortCollection() {
+    readWriteLock.writeLock().lock();
+    try {
+      List<Map.Entry<String, HumanBeing>> entries = new ArrayList<>(humanBeingLinkedHashMap.entrySet());
+      entries.sort(Map.Entry.comparingByKey());
+      humanBeingLinkedHashMap.clear();
+      for (Map.Entry<String, HumanBeing> entry : entries) {
+        humanBeingLinkedHashMap.put(entry.getKey(), entry.getValue());
+      }
+    } finally {
+      readWriteLock.writeLock().unlock();
+    }
+  }
+
+  @Override
+  public String getKeyById(Integer id) {
+    readWriteLock.readLock().lock();
+    try {
+      for (Map.Entry<String, HumanBeing> entry : humanBeingLinkedHashMap.entrySet()) {
+        if (entry.getValue().getId() == id) {
+          return entry.getKey();
+        }
+      }
+      return null;
+    } finally {
+      readWriteLock.readLock().unlock();
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\HumanBeingSqlManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.HumanBeing.Coordinates;
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.collection.HumanBeing.WeaponType;
+import lab7.common.collection.User;
+import lab7.server.logging.ServerLogger;
+
+import java.sql.*;
+import java.util.LinkedHashMap;
+
+public class HumanBeingSqlManager implements SqlManager<LinkedHashMap<String, HumanBeing>, HumanBeing> {
+
+    private final String url;
+    private final String user;
+    private final String password;
+
+    public HumanBeingSqlManager(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+    }
+
+    @Override
+    public LinkedHashMap<String, HumanBeing> loadData(){
+        LinkedHashMap<String, HumanBeing> collection = new LinkedHashMap<>();
+        String sql = "SELECT h.key, h.name, h.id, c.x, c.y, h.creation_date, h.real_hero, h.has_toothpick,"
+        + "h.impact_speed, h.soundtrack_name, h.minutes_of_waiting, h.weapon_type, cars.cool,"
+        + "u.login, u.password, u.id FROM human_beings h JOIN coordinates c ON h.coordinates_id = c.id"
+                +" JOIN cars ON h.car_id = cars.id JOIN users u ON h.user_id = u.id";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                HumanBeing h = new HumanBeing();
+                String key = rs.getString("key");
+                h.setId(rs.getInt("id"));
+                h.setName(rs.getString("name"));
+                Coordinates c = new Coordinates();
+                c.setX(rs.getDouble("x"));
+                c.setY(rs.getInt("y"));
+                h.setCoordinates(c);
+                h.setCreationDate(rs.getDate("creation_date"));
+                h.setRealHero(rs.getBoolean("real_hero"));
+                h.setHasToothpick(rs.getBoolean("has_toothpick"));
+                h.setImpactSpeed(rs.getLong("impact_speed"));
+                h.setSoundtrackName(rs.getString("soundtrack_name"));
+                h.setMinutesOfWaiting(rs.getInt("minutes_of_waiting"));
+                h.setWeaponType(WeaponType.valueOf(rs.getString("weapon_type")));
+                User u = new User(rs.getString("login"), rs.getString("password"));
+                h.setUser(u);
+                collection.put(key, h);
+            }
+        }catch (SQLException e){
+            ServerLogger.error("Ошибка загрузки коллекции");
+        }
+        return collection;
+    }
+
+    @Override
+    public void addObject(String key, HumanBeing object, Long userId){
+        String humanBeingSql = "INSERT INTO human_beings (key, name, coordinates_id,"
+                + "real_hero, has_toothpick, impact_speed, soundtrack_name, minutes_of_waiting,"
+                + "weapon_type, car_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?::weapon_type, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            conn.setAutoCommit(false);
+
+            Long coordinatesId = null;
+            String coordinatesSql = "INSERT INTO coordinates (x, y) VALUES (?, ?) RETURNING id";
+            try (PreparedStatement coordinatesStmt = conn.prepareStatement(coordinatesSql)){
+                coordinatesStmt.setDouble(1, object.getCoordinates().getX());
+                coordinatesStmt.setFloat(2, object.getCoordinates().getY());
+                ResultSet rs = coordinatesStmt.executeQuery();
+                if(rs.next()){
+                    coordinatesId = rs.getLong("id");
+                }
+                else{
+                    throw new SQLException();
+                }
+                rs.close();
+            }
+
+            Long carsId = null;
+            String carsSql = "SELECT id FROM cars WHERE cars.cool = ?";
+            try (PreparedStatement carsStmt = conn.prepareStatement(carsSql)){
+                carsStmt.setBoolean(1, object.getCar().getCool());
+                ResultSet rs = carsStmt.executeQuery();
+                if (rs.next()) {
+                    carsId = rs.getLong("id");
+                } else {
+                    throw new SQLException();
+                }
+                rs.close();
+            }
+
+            try (PreparedStatement humanBeingStmt = conn.prepareStatement(humanBeingSql)){
+                humanBeingStmt.setString(1, key);
+                humanBeingStmt.setString(2, object.getName());
+                humanBeingStmt.setLong(3, coordinatesId);
+                humanBeingStmt.setBoolean(4, object.getRealHero());
+                humanBeingStmt.setBoolean(5, object.getHasToothpick());
+                humanBeingStmt.setDouble(6, object.getImpactSpeed());
+                humanBeingStmt.setString(7, object.getSoundtrackName());
+                humanBeingStmt.setLong(8, object.getMinutesOfWaiting());
+                humanBeingStmt.setString(9, object.getWeaponType().toString());
+                humanBeingStmt.setLong(10, carsId);
+                humanBeingStmt.setLong(11, userId);
+                humanBeingStmt.executeUpdate();
+                conn.commit();
+            }
+        }catch (SQLException e){
+            ServerLogger.error("Ошибка добавления элемента");
+        }
+    }
+
+    @Override
+    public void deleteObject(String key){
+        try (Connection conn = DriverManager.getConnection(url, user, password)){
+            String sql = "DELETE FROM human_beings WHERE key = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setString(1, key);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка удаления элемента");
+        }
+    }
+
+    @Override
+    public void clear(Long userId){
+        try (Connection conn = DriverManager.getConnection(url, user, password)){
+            String sql = "DELETE FROM human_beings WHERE user_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setLong(1, userId);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка очистки элементов");
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\MetaSqlManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.server.logging.ServerLogger;
+
+import java.sql.*;
+
+public class MetaSqlManager {
+    private final String url;
+    private final String user;
+    private final String password;
+
+    public MetaSqlManager(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+    }
+
+    public String getType() {
+        String sql = "select type from meta";
+        String type = null;
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                type = rs.getString("type");
+            }
+            else{
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка при считывании мета-информации");
+        }
+        return type;
+    }
+
+    public Date getDate(){
+        String sql = "select date from meta";
+        Date date = null;
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                date = rs.getDate("date");
+            }
+            else{
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка при считывании мета-информации");
+        }
+        return date;
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\SqlManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public interface SqlManager<C extends Map<String, T>, T>{
+    C loadData();
+
+    void addObject(String key, T obj, Long id);
+
+    void deleteObject(String key);
+
+    void clear(Long id);
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\UserManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.User;
+import lab7.server.logging.ServerLogger;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HexFormat;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class UserManager {
+    private ArrayList<User> users;
+    private final UsersSqlManager sqlManager;
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+    public UserManager(UsersSqlManager sqlManager) {
+        this.sqlManager = sqlManager;
+        users = sqlManager.getUsers();
+    }
+
+    public void loadCollection(){
+        lock.writeLock().lock();
+        try {
+            users = sqlManager.getUsers();
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public boolean addUser(User user) {
+        lock.writeLock().lock();
+        try {
+            if (users.contains(user)) {
+                return false;
+            }
+            sqlManager.addUser(user);
+            loadCollection();
+            return true;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public User getUser(String login, String password) {
+        lock.readLock().lock();
+        try {
+            password += "81=VLfEr";
+            try {
+                MessageDigest md2 = MessageDigest.getInstance("MD2");
+                byte[] hashBytes = md2.digest(password.getBytes());
+                password = HexFormat.of().formatHex(hashBytes);
+            } catch (NoSuchAlgorithmException e) {
+                ServerLogger.error("Ошибка при хешировании пароля");
+            }
+            return new User(login, password);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public boolean checkUser(User user) {
+        lock.readLock().lock();
+        try {
+            for (User u : users) {
+                if (u.compareTo(user) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\collections\UsersSqlManager.java
+============================================================
+package lab7.server.collections;
+
+import lab7.common.collection.User;
+import lab7.server.logging.ServerLogger;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class UsersSqlManager {
+
+    private final String url;
+    private final String user;
+    private final String password;
+
+    public UsersSqlManager(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
+    }
+
+    public Long getIdUser(User userData){
+        Long id = null;
+        String sql = "SELECT id FROM users WHERE login = ? AND password = ?";
+        try (Connection conn = DriverManager.getConnection(url, user, password)){
+            try (PreparedStatement coordinatesStmt = conn.prepareStatement(sql)) {
+                coordinatesStmt.setString(1, userData.getLogin());
+                coordinatesStmt.setString(2, userData.getPassword());
+                ResultSet rs = coordinatesStmt.executeQuery();
+                if (rs.next()) {
+                    id = rs.getLong(1);
+                }
+                rs.close();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка при считывании id пользователя");
+        }
+        return id;
+    }
+
+    public ArrayList<User> getUsers(){
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "select * from users";
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                User user = new User(rs.getString("login"), rs.getString("password"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка при считывании списка пользователей");
+        }
+        return users;
+    }
+
+    public void addUser(User userData){
+        String sql = "INSERT INTO users(login, password) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            try (PreparedStatement coordinatesStmt = conn.prepareStatement(sql)){
+                coordinatesStmt.setString(1, userData.getLogin());
+                coordinatesStmt.setString(2, userData.getPassword());
+                coordinatesStmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            ServerLogger.error("Ошибка при добавлении пользователя");
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Authorization.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.commands.ServerCommand;
+
+public class Authorization implements ServerCommand {
+    @Override
+    public String getName() {
+        return "authorization";
+    }
+
+    @Override
+    public String getDescr() {
+        return "Авторизует пользователя";
+    }
+
+    @Override
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+        return new CommandResponse<>(getName(), "Вы успешно авторизованы");
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Clear.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.User;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.Map;
+
+public class Clear implements ServerCommand {
+  private final CollectionManager<? extends Map<String, ?>, ?> manager;
+  private final UserManager userManager;
+
+  public Clear(CollectionManager<? extends Map<String, ?>, ?> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "clear";
+  }
+
+  @Override
+  public String getDescr() {
+    return "Очищает все элементы пользователя";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    manager.clearCollection(user);
+    return new CommandResponse<>(getName(), "Ваши элементы очищены.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\CountGreaterThanImpactSpeed.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.Map;
+
+public class CountGreaterThanImpactSpeed implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager;
+
+  public CountGreaterThanImpactSpeed(
+      CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager) {
+    this.manager = manager;
+  }
+
+  @Override
+  public String getName() {
+    return "count_greater_than_impact_speed";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[Long impact_speed] Выводит количество элементов, значение поля impactSpeed которых больше заданного";
+  }
+
+  @Override
+  public CommandResponse<Long> execute(CommandRequest<?, ?> commandRequest) {
+    Long impactSpeed = (Long) commandRequest.getArgument();
+    long count =
+        manager.getCollection().values().stream()
+            .filter(obj -> obj.getImpactSpeed() != null)
+            .filter(obj -> obj.getImpactSpeed() > impactSpeed)
+            .count();
+    return new CommandResponse<>(getName(), "Количество элементов: ", count);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Help.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.commands.ServerCommand;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+public class Help implements ServerCommand {
+
+  LinkedHashMap<String, ServerCommand> commandMap;
+
+  public Help(LinkedHashMap<String, ServerCommand> commandMap) {
+    this.commandMap = commandMap;
+  }
+
+  @Override
+  public String getName() {
+    return "help";
+  }
+
+  @Override
+  public String getDescr() {
+    return "Выводит справку по доступным командам";
+  }
+
+  @Override
+  public CommandResponse<HashMap<String, String>> execute(CommandRequest<?, ?> commandRequest) {
+    HashMap<String, String> helpMap = new HashMap<>();
+    for (String command : commandMap.keySet()) {
+      helpMap.put(commandMap.get(command).getName(), commandMap.get(command).getDescr());
+    }
+    return new CommandResponse<>(getName(), "Доступные команды:", helpMap);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Info.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.MetaSqlManager;
+import lab7.server.commands.ServerCommand;
+
+
+import java.util.Map;
+
+public class Info implements ServerCommand {
+
+  private final CollectionManager<? extends Map<?, ?>, ?> manager;
+  private final MetaSqlManager metaManager;
+
+  public Info(CollectionManager<? extends Map<?, ?>, ?> manager, MetaSqlManager metaManager) {
+    this.manager = manager;
+    this.metaManager = metaManager;
+  }
+
+  @Override
+  public String getName() {
+    return "info";
+  }
+
+  @Override
+  public String getDescr() {
+    return "Выводит в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    String message =
+        "Информация о коллекции:"
+            + "\nТип коллекции: "
+            + metaManager.getType()
+            + "\nДата создания: "
+            + metaManager.getDate()
+            + "\nКоличество элементов: "
+            + manager.getCollection().size();
+    return new CommandResponse<>(getName(), message);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Insert.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public class Insert<T> implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, T>, T> manager;
+  private final UserManager userManager;
+
+  public Insert(CollectionManager<? extends Map<String, T>, T> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "insert";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[String key] Добавляет новый элемент с заданным ключом";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    String key = (String) commandRequest.getArgument();
+    T object = (T) commandRequest.getObject();
+    manager.addElementToCollection(key, object, user);
+    return new CommandResponse<>(getName(), "Элемент добавлен в коллекцию.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\MinByImpactSpeed.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.collection.HumanBeing.comparators.HumanBeingComparatorByImpactSpeed;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
+
+public class MinByImpactSpeed implements ServerCommand {
+
+  CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager;
+  HumanBeingComparatorByImpactSpeed comparator;
+
+  public MinByImpactSpeed(
+      CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager,
+      HumanBeingComparatorByImpactSpeed comparator) {
+    this.manager = manager;
+    this.comparator = comparator;
+  }
+
+  @Override
+  public String getName() {
+    return "min_by_impact_speed";
+  }
+
+  @Override
+  public String getDescr() {
+    return "Выводит любой объект из коллекции, значение поля impactSpeed которого является минимальным";
+  }
+
+  @Override
+  public CommandResponse<HumanBeing> execute(CommandRequest<?, ?> commandRequest) {
+    Optional<HumanBeing> minObject =
+        manager.getCollection().values().stream()
+            .filter(obj -> obj.getImpactSpeed() != null)
+            .min(Comparator.comparingLong(HumanBeing::getImpactSpeed));
+
+    if (minObject.isPresent()) {
+      return new CommandResponse<>(
+          getName(), "Элемент с минимальным Impact Speed:", minObject.get());
+    } else {
+      return new CommandResponse<>(getName(), "Элементов с заданным Impact Speed нет в коллекции");
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Registration.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+
+public class Registration implements ServerCommand {
+    private UserManager manager;
+    public Registration(UserManager manager) {
+        this.manager = manager;
+    }
+
+    @Override
+    public String getName() {
+        return "registration";
+    }
+
+    @Override
+    public String getDescr() {
+        return "Регистрирует пользователя";
+    }
+
+    @Override
+    public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+        if(manager.addUser(manager.getUser(commandRequest.getUser(), commandRequest.getPassword()))){
+            return new CommandResponse<>(getName(), "Вы успешно зарегистрированы");
+        }
+        return new CommandResponse<>(null, "Пользователь с таким именем уже есть");
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\RemoveAllByImpactSpeed.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public class RemoveAllByImpactSpeed implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager;
+  private final UserManager userManager;
+
+  public RemoveAllByImpactSpeed(
+      CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "remove_all_by_impact_speed";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[Long impact_speed] Удаляет из коллекции все элементы, значение поля impactSpeed которого эквивалентно заданному";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    Long impactSpeed = (Long) commandRequest.getArgument();
+    manager.getCollection().entrySet().stream()
+            .filter(entry -> entry.getValue().getImpactSpeed() != null
+                    && entry.getValue().getImpactSpeed().equals(impactSpeed)
+                    && entry.getValue().getUser().compareTo(user) == 0)
+            .forEach(entry -> manager.removeElementToCollection(entry.getKey(), user));
+    return new CommandResponse<>(
+        getName(), "Элементы с impactSpeed = " + impactSpeed + " удалены.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\RemoveGreaterKey.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public class RemoveGreaterKey implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager;
+  private final UserManager userManager;
+
+  public RemoveGreaterKey(CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "remove_greater_key";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[String key] Удаляет из коллекции все элементы, ключ которых превышает заданный";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    String key = (String) commandRequest.getArgument();
+    manager.getCollection().keySet().stream()
+        .filter(k -> k.compareTo(key) > 0 && manager.getCollection().get(k).getUser().compareTo(user) == 0)
+        .forEach(k -> manager.removeElementToCollection(k, user));
+    return new CommandResponse<>(getName(), "Все элементы ключом больше чем " + key + " удалены.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\RemoveKey.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+import lab7.common.collection.User;
+
+import java.util.Map;
+
+public class RemoveKey implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, ?>, ?> manager;
+  private final UserManager userManager;
+
+  public RemoveKey(CollectionManager<? extends Map<String, ?>, ?> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "remove_key";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[String key] Удаляет элемент из коллекции по его ключу";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    String key = (String) commandRequest.getArgument();
+    if (manager.checkObjectByKey(key)) {
+      manager.removeElementToCollection(key, user);
+      return new CommandResponse<>(getName(), "Элемент с ключом: " + key + " удален.");
+    } else {
+      return new CommandResponse<>(getName(), "Элемент с ключом: " + key + " не найден.");
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\RemoveLowerKey.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+import lab7.common.collection.User;
+
+import java.util.ConcurrentModificationException;
+import java.util.Map;
+
+public class RemoveLowerKey implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, HumanBeing>, HumanBeing> manager;
+  private final UserManager userManager;
+
+  public RemoveLowerKey(CollectionManager<? extends Map<String, HumanBeing>,  HumanBeing> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "remove_lower_key";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[String key] Удаляет из коллекции все элементы, ключ которых меньше, чем заданный";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    String key = (String) commandRequest.getArgument();
+    manager.getCollection().keySet().stream()
+            .filter(k -> k.compareTo(key) < 0 && manager.getCollection().get(k).getUser().compareTo(user) == 0)
+            .forEach(k -> manager.removeElementToCollection(k, user));
+    return new CommandResponse<>(
+        getName(), "Все элементы с ключом меньше чем " + key + " удалены.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\ReplaceIfLowe.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.User;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.Comparator;
+import java.util.Map;
+
+public class ReplaceIfLowe<T> implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, T>, T> manager;
+  private final Comparator<T> comparator;
+  private final UserManager userManager;
+
+  public ReplaceIfLowe(
+      CollectionManager<? extends Map<String, T>, T> manager, Comparator<T> comparator, UserManager userManager) {
+    this.manager = manager;
+    this.comparator = comparator;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "replace_if_lowe";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[String key] Заменяет значение по ключу, если новое значение меньше старого";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    String key = (String) commandRequest.getArgument();
+    T object = (T) commandRequest.getObject();
+    System.out.println(object);
+    if (comparator.compare(object, manager.getCollection().get(key)) < 0) {
+      manager.addElementToCollection(key, object, user);
+    }
+    return new CommandResponse<>(getName(), "Элемент с ключом " + key + " изменен.");
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Show.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.LinkedHashMap;
+
+public class Show<T> implements ServerCommand {
+
+  private final CollectionManager<LinkedHashMap<String, T>, T> manager;
+
+  public Show(CollectionManager<LinkedHashMap<String, T>, T> manager) {
+    this.manager = manager;
+  }
+
+  @Override
+  public String getName() {
+    return "show";
+  }
+
+  @Override
+  public String getDescr() {
+    return "Выводит все элементы коллекции в строковом представлении";
+  }
+
+  @Override
+  public CommandResponse<LinkedHashMap<String, T>> execute(CommandRequest<?, ?> commandRequest) {
+    if (manager.getCollection().isEmpty()) {
+      return new CommandResponse<>(getName(), "Коллекция пуста.");
+    }
+    manager.sortCollection();
+    return new CommandResponse<>(getName(), "Все элементы коллекции:", manager.getCollection());
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\HumanBeingCommands\Update.java
+============================================================
+package lab7.server.commands.HumanBeingCommands;
+
+import lab7.common.collection.HavingId;
+import lab7.common.collection.User;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.CollectionManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.ServerCommand;
+
+import java.util.Map;
+
+public class Update<T extends HavingId> implements ServerCommand {
+
+  private final CollectionManager<? extends Map<String, T>, T> manager;
+  private final UserManager userManager;
+
+  public Update(CollectionManager<? extends Map<String, T>, T> manager, UserManager userManager) {
+    this.manager = manager;
+    this.userManager = userManager;
+  }
+
+  @Override
+  public String getName() {
+    return "update";
+  }
+
+  @Override
+  public String getDescr() {
+    return "[Int id] Обновляет значение элемента коллекции, id которого равен заданному";
+  }
+
+  @Override
+  public CommandResponse<?> execute(CommandRequest<?, ?> commandRequest) {
+    User user = userManager.getUser(commandRequest.getUser(), commandRequest.getPassword());
+    Integer id = (Integer) commandRequest.getArgument();
+    T object = (T) commandRequest.getObject();
+    String key = manager.getKeyById(id);
+    if (key == null) {
+      return new CommandResponse<>(
+          getName(), "Элемента с таким id-номером нет в текущей коллекции!");
+    } else {
+      manager.updateElementToCollection(key, object, user);
+      return new CommandResponse<>(getName(), "Элемента с данным ID успешно заменен.");
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\CommandExecutor.java
+============================================================
+package lab7.server.commands;
+
+import lab7.common.collection.User;
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+import lab7.server.collections.UserManager;
+import lab7.server.logging.ServerLogger;
+import lab7.server.network.ResponseSender;
+
+import java.net.SocketAddress;
+
+public class CommandExecutor implements Runnable{
+  private final ServerCommand command;
+  private final UserManager userManager;
+  private final SocketAddress clientAddress;
+  private final CommandRequest<?, ?> request;
+  private final ResponseSender responseSender;
+
+  public CommandExecutor(ServerCommand command, UserManager userManager, CommandRequest<?, ?> request, ResponseSender responseSender, SocketAddress clientAddress) {
+    this.command = command;
+    this.responseSender = responseSender;
+    this.userManager = userManager;
+    this.request = request;
+    this.clientAddress = clientAddress;
+  }
+
+  @Override
+  public void run() {
+    CommandResponse<?> response;
+    try {
+      User user = userManager.getUser(request.getUser(), request.getPassword());
+      if(userManager.checkUser(user) || command.getName().equals("registration")){
+        response = command.execute(request);
+        ServerLogger.log("Команда успешно выполнена");
+      }
+      else{
+        response = new CommandResponse<>(null, "Пользователь не авторизован или не зарегистрирован");
+        ServerLogger.log("Полученная команда не выполнена из-за того, что пользователя: " + user.login + " нет в базе данных");
+      }
+    } catch (Exception e) {
+      response = new CommandResponse<>(null, "Ошибка при исполнении команды");
+      ServerLogger.error("Ошибка при исполнении команды");
+    }
+    responseSender.sendResponse(response, clientAddress);
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\CommandMap.java
+============================================================
+package lab7.server.commands;
+
+import java.util.Map;
+
+public interface CommandMap<C extends Map<String, ServerCommand>> {
+  C getCommandMap();
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\CommandMapForHumanBeing.java
+============================================================
+package lab7.server.commands;
+
+import lab7.common.collection.HumanBeing.comparators.*;
+import lab7.server.collections.HumanBeingManager;
+import lab7.server.collections.MetaSqlManager;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.HumanBeingCommands.*;
+
+import java.util.LinkedHashMap;
+
+public class CommandMapForHumanBeing implements CommandMap<LinkedHashMap<String, ServerCommand>> {
+
+  private final LinkedHashMap<String, ServerCommand> commandMap;
+
+  public CommandMapForHumanBeing(
+          HumanBeingManager humanBeingManager, UserManager userManager, MetaSqlManager metaSqlManager) {
+    this.commandMap = new LinkedHashMap<>();
+    commandMap.put("info", new Info(humanBeingManager, metaSqlManager));
+    commandMap.put("help", new Help(commandMap));
+    commandMap.put("show", new Show<>(humanBeingManager));
+    commandMap.put("insert", new Insert<>(humanBeingManager, userManager));
+    commandMap.put("update", new Update<>(humanBeingManager, userManager));
+    commandMap.put("remove_key", new RemoveKey(humanBeingManager, userManager));
+    commandMap.put("clear", new Clear(humanBeingManager, userManager));
+    commandMap.put(
+        "replace_if_lowe", new ReplaceIfLowe<>(humanBeingManager, new HumanBeingComparator(), userManager));
+    commandMap.put("remove_greater_key", new RemoveGreaterKey(humanBeingManager, userManager));
+    commandMap.put("remove_lower_key", new RemoveLowerKey(humanBeingManager, userManager));
+    commandMap.put("remove_all_by_impact_speed", new RemoveAllByImpactSpeed(humanBeingManager, userManager));
+    commandMap.put(
+        "min_by_impact_speed",
+        new MinByImpactSpeed(humanBeingManager, new HumanBeingComparatorByImpactSpeed()));
+    commandMap.put(
+        "count_greater_than_impact_speed", new CountGreaterThanImpactSpeed(humanBeingManager));
+    commandMap.put("authorization", new Authorization());
+    commandMap.put("registration", new Registration(userManager));
+  }
+
+  public LinkedHashMap<String, ServerCommand> getCommandMap() {
+    return commandMap;
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\commands\ServerCommand.java
+============================================================
+package lab7.server.commands;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.CommandResponse;
+
+public interface ServerCommand {
+  CommandResponse execute(CommandRequest<?, ?> commandRequest) throws IllegalArgumentException;
+
+  String getName();
+
+  String getDescr();
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\logging\ServerLogger.java
+============================================================
+package lab7.server.logging;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class ServerLogger {
+  private static final String LOG_FILE = "server.log";
+  private static final DateTimeFormatter TIMESTAMP_FORMAT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  private static PrintWriter logWriter;
+
+  static {
+    try {
+      File logFile = new File(LOG_FILE);
+      boolean fileExists = logFile.exists();
+      logWriter = new PrintWriter(new FileWriter(logFile, true));
+      if (!fileExists) {
+        logWriter.println("===== Server Log Started =====");
+      }
+    } catch (IOException e) {
+      System.err.println("Не удалось запустить логирование: " + e.getMessage());
+      logWriter = null;
+    }
+  }
+
+  public static synchronized void log(String message) {
+    logInternal("INFO", message);
+  }
+
+  public static synchronized void error(String message) {
+    logInternal("ERROR", message);
+  }
+
+  private static void logInternal(String level, String message) {
+    String timestamp = LocalDateTime.now().format(TIMESTAMP_FORMAT);
+    String logEntry = String.format("[%s] [%s] %s", timestamp, level, message);
+    System.out.println(logEntry);
+    if (logWriter != null) {
+      logWriter.println(logEntry);
+      logWriter.flush();
+    }
+  }
+
+  public static void close() {
+    if (logWriter != null) {
+      log("Завершение работы сервера");
+      logWriter.close();
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\network\RequestHandler.java
+============================================================
+package lab7.server.network;
+
+import lab7.common.service.CommandRequest;
+import lab7.common.service.Serializer;
+import lab7.server.collections.UserManager;
+import lab7.server.commands.CommandExecutor;
+import lab7.server.commands.CommandMap;
+import lab7.server.commands.ServerCommand;
+import lab7.server.logging.ServerLogger;
+
+import java.net.DatagramPacket;
+import java.util.Map;
+
+public class RequestHandler<C extends Map<String, ServerCommand>> implements Runnable{
+
+    private final DatagramPacket receivePacket;
+    private final C commandMap;
+    private final UserManager userManager;
+    private final ResponseSender responseSender;
+
+    public RequestHandler(DatagramPacket receivePacket, CommandMap<C> commandMap, UserManager userManager, ResponseSender responseSender) {
+        this.receivePacket = receivePacket;
+        this.commandMap = commandMap.getCommandMap();
+        this.userManager = userManager;
+        this.responseSender = responseSender;
+    }
+
+    @Override
+    public void run() {
+        try {
+            CommandRequest<?, ?> request = Serializer.deserialize(receivePacket.getData(), CommandRequest.class);
+            ServerLogger.log("Получена команда: " + request.getCommandName() + " от пользователя: " + request.getUser());
+            ServerCommand command = commandMap.get(request.getCommandName());
+            CommandExecutor commandExecutor = new CommandExecutor(command, userManager, request, responseSender, receivePacket.getSocketAddress());
+            Thread executionThread = new Thread(commandExecutor);
+            executionThread.start();
+
+        } catch (Exception e) {
+            ServerLogger.error("Ошибка при чтении запроса: " + e);
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\network\ResponseSender.java
+============================================================
+package lab7.server.network;
+
+import lab7.common.service.CommandResponse;
+
+import java.net.DatagramSocket;
+import java.net.SocketAddress;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ResponseSender {
+    private final ExecutorService responsePool;
+    private final DatagramSocket serverSocket;
+
+    public ResponseSender(DatagramSocket serverSocket, int poolSize) {
+        this.serverSocket = serverSocket;
+        this.responsePool = Executors.newFixedThreadPool(poolSize);
+    }
+
+    public void sendResponse(CommandResponse<?> response, SocketAddress clientAddress) {
+        Runnable sendTask = new SendResponseTask(serverSocket, response, clientAddress);
+        responsePool.execute(sendTask);
+    }
+
+    public void shutdown() {
+        responsePool.shutdown();
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\network\SendResponseTask.java
+============================================================
+package lab7.server.network;
+
+import lab7.common.service.CommandResponse;
+import lab7.common.service.Serializer;
+import lab7.server.logging.ServerLogger;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketAddress;
+
+public class SendResponseTask implements Runnable {
+    private final DatagramSocket serverSocket;
+    private final CommandResponse<?> response;
+    private final SocketAddress clientAddress;
+
+    public SendResponseTask(DatagramSocket serverSocket, CommandResponse<?> response, SocketAddress clientAddress) {
+        this.serverSocket = serverSocket;
+        this.response = response;
+        this.clientAddress = clientAddress;
+    }
+
+    @Override
+    public void run() {
+        try {
+            byte[] responseData = Serializer.serialize(response);
+            DatagramPacket responsePacket = new DatagramPacket(
+                    responseData,
+                    responseData.length,
+                    clientAddress
+            );
+            serverSocket.send(responsePacket);
+            ServerLogger.log("Ответ успешно отправлен пользователю");
+        } catch (Exception e) {
+            ServerLogger.error("Не удалось отправить ответ пользователю");
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\network\UdpServer.java
+============================================================
+package lab7.server.network;
+
+import lab7.server.collections.UserManager;
+import lab7.server.commands.CommandMap;
+import lab7.server.commands.ServerCommand;
+import lab7.server.logging.ServerLogger;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketTimeoutException;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class UdpServer<C extends Map<String, ServerCommand>> {
+  private final int port;
+  private final int bufferSize;
+  private static final int REQUEST_POOL_SIZE = 10;
+  private static final int RESPONSE_POOL_SIZE = 10;
+  private volatile boolean running = true;
+  private final CommandMap<C> commandMap;
+  private final ConcurrentLinkedQueue<String> commandQueue = new ConcurrentLinkedQueue<>();
+  private final UserManager userManager;
+
+  public UdpServer(
+      int port,
+      int bufferSize,
+      CommandMap<C> commandMap,
+      UserManager userManager) {
+    this.port = port;
+    this.bufferSize = bufferSize;
+    this.commandMap = commandMap;
+    this.userManager = userManager;
+    startConsoleReader();
+  }
+
+  public void start() {
+    ExecutorService requestPool = Executors.newFixedThreadPool(REQUEST_POOL_SIZE);
+    ResponseSender responseSender = null;
+    try (DatagramSocket serverSocket = new DatagramSocket(port)) {
+      ServerLogger.log("Сервер запущен на порту " + port);
+      ServerLogger.log("Ожидание запросов...");
+      responseSender = new ResponseSender(serverSocket, RESPONSE_POOL_SIZE);
+      serverSocket.setSoTimeout(1000);
+
+      while (running) {
+        processConsoleCommands();
+        try {
+          byte[] buffer = new byte[bufferSize];
+          DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+          serverSocket.receive(receivePacket);
+          Runnable requestHandler = new RequestHandler<>(receivePacket, commandMap, userManager, responseSender);
+          requestPool.execute(requestHandler);
+        } catch (SocketTimeoutException e) {
+        } catch (IOException e) {
+          ServerLogger.error("Ошибка ввода-вывода: " + e);
+        }
+      }
+    } catch (IOException e) {
+      ServerLogger.error("Ошибка запуска сервера: " + e);
+    } finally {
+      requestPool.shutdown();
+      if (responseSender != null) {
+        responseSender.shutdown();
+      }
+    }
+  }
+
+  private void startConsoleReader() {
+    Thread consoleThread =
+        new Thread(
+            () -> {
+              try (Scanner scanner = new Scanner(System.in)) {
+                while (running) {
+                  if (scanner.hasNextLine()) {
+                    String command = scanner.nextLine().trim();
+                    commandQueue.add(command);
+                  }
+                }
+              }
+            });
+    consoleThread.setDaemon(true);
+    consoleThread.start();
+  }
+
+  private void processConsoleCommands() {
+    while (!commandQueue.isEmpty()) {
+      String command = commandQueue.poll();
+        if (command.toLowerCase().trim().equals("exit")) {
+            ServerLogger.log("Завершение работы сервера...");
+            running = false;
+        } else {
+            ServerLogger.error("Неизвестная команда: " + command);
+        }
+    }
+  }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ src\main\java\lab7\server\Main.java
+============================================================
+package lab7.server;
+
+import lab7.common.collection.HumanBeing.HumanBeing;
+import lab7.server.collections.*;
+import lab7.server.commands.CommandExecutor;
+import lab7.server.commands.CommandMapForHumanBeing;
+import lab7.server.commands.ServerCommand;
+import lab7.server.logging.ServerLogger;
+import lab7.server.network.UdpServer;
+
+import java.util.LinkedHashMap;
+import java.util.Scanner;
+
+public class Main {
+    private static final int BUFFER_SIZE = 65536;
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Запуск приложения. Напишите номер порта:");
+            int port = (new Scanner(System.in)).nextInt();
+            String user, password;
+            System.out.print("Введите имя пользователя PostgreSQL: ");
+            user = System.console().readLine();
+            System.out.print("Введите пароль пользователя PostgreSQL: ");
+            password = System.console().readLine();
+            HumanBeingSqlManager humanBeingSqlManager = new HumanBeingSqlManager("jdbc:postgresql://localhost:5432/studs", user, password);
+            UsersSqlManager usersSqlManager = new UsersSqlManager("jdbc:postgresql://localhost:5432/studs", user, password);
+            MetaSqlManager metaSqlManager = new MetaSqlManager("jdbc:postgresql://localhost:5432/studs", user, password);
+            HumanBeingManager humanBeingManager = new HumanBeingManager(humanBeingSqlManager, usersSqlManager);
+            UserManager userManager = new UserManager(usersSqlManager);
+            CommandMapForHumanBeing commandMap = new CommandMapForHumanBeing(humanBeingManager, userManager, metaSqlManager);
+            UdpServer<LinkedHashMap<String, ServerCommand>> udpServer = new UdpServer<>(port, BUFFER_SIZE, commandMap, userManager);
+            udpServer.start();
+        } catch (Exception e) {
+            ServerLogger.error("Критическая ошибка при запуске сервера: " + e.getMessage());
+        }
+    }
+}
+
+────────────────────────────────────────
+
+============================================================
+ФАЙЛ pom.xml
+============================================================
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>lab7</groupId>
+    <artifactId>7</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+        </dependency>
+    </dependencies>
+
+</project>
+────────────────────────────────────────
